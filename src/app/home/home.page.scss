@@ -1,0 +1,24 @@
+ion-avatar {
+  --border-radius: 4px;
+  padding: 5px;
+}
+ion-toolbar{
+  border-radius: 10px;
+  font-size: medium;
+  
+}
+ion-item{
+  border-radius: 10px;
+  margin-top: 10px;
+}
+ion-text{
+  display: flex;
+  size: 30px;
+  font-weight: bold;
+  text-align: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+.iconos{
+  padding-top: 5px;
+}

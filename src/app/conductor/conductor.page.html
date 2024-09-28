@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Conductor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <ion-grid>
+        <ion-card >
+          <form  (ngSubmit)="programarViaje()">
+            <ion-card-content>
+              <ion-input name="destino" [(ngModel)]="vje.destino" type="text" placeholder="Destino"></ion-input>
+              <ion-input name="capacidad" [(ngModel)]="vje.capacidad" type="number" label="Capacidad"></ion-input>
+              <ion-input name="costo" [(ngModel)]="vje.costo" type="number" label="Costo"></ion-input>
+              <ion-label>Hora de salida</ion-label>
+              <ion-datetime
+                name="horaSalida"
+                [(ngModel)]="vje.horaSalida"
+                presentation="time"
+                placeholder="Seleccionar hora"
+                cancel-text="Cancelar"
+                done-text="Hecho"
+                hour-cycle="h23"
+              ></ion-datetime>
+
+              <ion-button expand="block" color="primary" type="submit" >
+                registrar viaje
+              </ion-button>
+            </ion-card-content>
+          </form>
+        </ion-card>
+        <ng-template>
+          <ion-card>
+            <ion-card-content>
+              <p>No estás habilitado para programar un viaje porque no tienes un vehículo registrado.</p>
+            </ion-card-content>
+          </ion-card>
+        </ng-template>
+
+
+        <ion-card-content>
+          <!-- Listado de viajes -->
+          <ion-list *ngFor="let item of viajes">
+            <ion-card class="custom-card" [id]="'card-' + item.id">
+              <ion-card-content>
+                <!-- Información del destino -->
+                <div class="card-header">
+                  <div class="card-info">
+                    <h2>{{ item.destino | uppercase }}</h2>
+                    <p>Capacidad disponible: {{ item.capacidad }} personas</p>
+                    <p>Costo: ${{ item.costo }} por persona</p>
+                  </div>
+                  <div class="card-icon">
+                    <ion-icon name="location-outline"></ion-icon>
+                  </div>
+                </div>
+
+                <!-- Contenedor del mapa -->
+                <div *ngIf="item.lat && item.lng" class="map-container">
+                  <div id="map-{{ item.id }}" class="leaflet-map"></div>
+                </div>
+
+                <!-- Botón de eliminar -->
+                <ion-button (click)="eliminarViaje(item.id)" class="delete-btn" expand="block" style="--background: #f56565; --color: white;">
+                  <ion-icon name="trash-outline"></ion-icon> Eliminar viaje
+                </ion-button>
+              </ion-card-content>
+              
+            </ion-card>
+            
+          </ion-list>
+        </ion-card-content>
+        
+  </ion-grid>
+</ion-content>

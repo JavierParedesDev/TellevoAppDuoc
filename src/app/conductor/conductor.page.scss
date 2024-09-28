@@ -1,0 +1,105 @@
+ion-card.custom-card {
+  margin: 20px 10px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave para la card */
+  border-radius: 12px;
+  border: 1px solid #e0e0e0; /* Un borde ligero para definición */
+  min-height: 300px; /* Altura mínima para que el contenido quepa bien */
+  transform: translateY(-20px); /* Empieza desplazada hacia arriba */
+  transition: opacity 0.5s ease, transform 0.5s ease; /* Transición suave */
+}
+
+/* Hover en la card */
+ion-card.custom-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más profunda al hacer hover */
+}
+
+/* Encabezado de la card: texto e icono alineados */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-info h2 {
+  font-size: 1.25rem; /* Tamaño del texto */
+  font-weight: 600; /* Negrita */
+  color: #333; /* Color del texto */
+  margin: 0;
+}
+
+.card-info p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 5px 0; /* Añadir un pequeño margen entre los párrafos */
+}
+
+/* Estilo del icono de ubicación */
+.card-icon ion-icon {
+  font-size: 24px;
+  color: #f56565; /* Rojo suave */
+}
+
+/* Contenedor del mapa */
+.map-container {
+  height: 200px; /* Ajusta esta altura según sea necesario */
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: lightgray;
+}
+
+.leaflet-container {
+  height: 100% !important; /* Asegura que el mapa ocupe el 100% del contenedor */
+  width: 100% !important;
+}
+
+.leaflet-map {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Espaciado del contenido de la tarjeta */
+ion-card-content {
+  padding: 20px;
+}
+
+ion-button.delete-btn {
+  margin-top: 15px;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none;
+}
+
+/* Hover del botón de eliminar */
+ion-button.delete-btn:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Icono de eliminar dentro del botón */
+ion-button.delete-btn ion-icon {
+  margin-right: 8px;
+  font-size: 18px; /* Tamaño adecuado del icono */
+}
+
+.custom-card.loaded {
+  opacity: 1;
+  transform: translateY(0); /* Posición final */
+}
+
+.custom-card.removing {
+  opacity: 0;
+  transform: translateY(20px); /* Desplazar hacia abajo cuando se elimina */
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}

@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Crear Cuenta</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form (ngSubmit)="registro()">
+              <ion-item>
+                <ion-label position="floating">Nombre Completo</ion-label>
+                <ion-input [(ngModel)]="usr.nombre" name="nombre" required type="text"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Correo Electrónico</ion-label>
+                <ion-input [(ngModel)]="usr.email" name="email" required type="email"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Contraseña</ion-label>
+                <ion-input [(ngModel)]="usr.contrasena" name="contrasena" required type="password"></ion-input>
+              </ion-item>
+              
+              <ion-item>
+                <ion-checkbox [(ngModel)]="tieneVehiculo" name="checkbox">Tienes Vehículo?</ion-checkbox>
+              </ion-item>
+
+              <ion-item [disabled]="!tieneVehiculo">
+                <ion-label position="floating">Marca</ion-label>
+                <ion-input [(ngModel)]="vcl.marca" name="marca" type="text"></ion-input>
+              </ion-item>
+
+              <ion-item [disabled]="!tieneVehiculo">
+                <ion-label position="floating">Modelo</ion-label>
+                <ion-input [(ngModel)]="vcl.modelo" name="modelo" type="text"></ion-input>
+              </ion-item>
+
+              <ion-item [disabled]="!tieneVehiculo">
+                <ion-label position="floating">Año</ion-label>
+                <ion-input [(ngModel)]="vcl.date" name="año" type="number"></ion-input>
+              </ion-item>
+
+              <ion-button type="submit" expand="full" color="secondary">Registrarse</ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
