@@ -1,5 +1,5 @@
 ion-card.custom-card {
-  margin: 20px 10px;
+  margin: 20px 5px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave para la card */
   border-radius: 12px;
@@ -26,42 +26,40 @@ ion-card.custom-card:hover {
 .card-info h2 {
   font-size: 1.25rem; /* Tamaño del texto */
   font-weight: 600; /* Negrita */
-  color: #333; /* Color del texto */
+  color: #ffffff; /* Color del texto */
   margin: 0;
 }
 
 .card-info p {
   font-size: 0.9rem;
-  color: #666;
+  color: #ffffff;
   margin: 5px 0; /* Añadir un pequeño margen entre los párrafos */
 }
 
-/* Estilo del icono de ubicación */
-.card-icon ion-icon {
-  font-size: 24px;
-  color: #f56565; /* Rojo suave */
+
+
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1; /* Asegúrate de que el mapa esté detrás del formulario */
 }
 
-/* Contenedor del mapa */
-.map-container {
-  height: 200px; /* Ajusta esta altura según sea necesario */
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 10px;
-  overflow: hidden;
-  background-color: lightgray;
+.travel-form {
+  position: absolute;
+  bottom: 20px; /* Espaciado desde el fondo */
+  left: 10px; /* Espaciado desde la izquierda */
+  right: 10px; /* Espaciado desde la derecha */
+  background: rgba(255, 255, 255, 0.9); /* Fondo blanco con opacidad */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Sombra */
+  padding: 20px; /* Espaciado interno */
+  z-index: 2; /* Asegúrate de que el formulario esté por encima del mapa */
 }
 
-.leaflet-container {
-  height: 100% !important; /* Asegura que el mapa ocupe el 100% del contenedor */
-  width: 100% !important;
-}
-
-.leaflet-map {
-  height: 100%;
-  width: 100%;
-  border-radius: 10px;
-}
 
 /* Espaciado del contenido de la tarjeta */
 ion-card-content {
@@ -103,3 +101,34 @@ ion-button.delete-btn ion-icon {
   transform: translateY(20px); /* Desplazar hacia abajo cuando se elimina */
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
+label {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 500;
+}
+input[type="time"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #f2f2f7;
+  border: 1px solid #d1d1d6;
+  border-radius: 10px;
+  color: #333;
+  box-sizing: border-box;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input[type="time"]:focus {
+  border-color: #007aff;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(50%);
+  opacity: 0.5;
+}
+

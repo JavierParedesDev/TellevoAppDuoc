@@ -1,0 +1,11 @@
+
+<ion-content>
+  <div *ngFor="let viaje of viajes" class="viaje-card">
+    <h3>{{ viaje.destino }}</h3>
+    <p>Capacidad: {{ viaje.capacidad }}</p>
+    <p>Costo: {{ viaje.costo }} CLP</p>
+    <p>Hora de Salida: {{ viaje.horaSalida }}</p>
+    <div id="map-{{ viaje.id }}" class="map-container"></div>
+    <ion-button (click)="eliminarViaje(viaje.id)" color="danger">Eliminar Viaje</ion-button>
+  </div>
+</ion-content>

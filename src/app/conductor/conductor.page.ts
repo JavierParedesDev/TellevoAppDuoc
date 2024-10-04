@@ -1,9 +1,9 @@
-import { Component, OnInit, AfterViewInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Viajes } from '../interfaces/viajes';
 import { LoadingController } from '@ionic/angular';
-
-import { MapsService } from '../services/maps.service'; // Servicio creado exclusivamente para el mapa
+import { MapsService } from '../services/maps.service';
 import { AuthServiceService } from '../services/auth-service.service';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-conductor',
@@ -13,15 +13,20 @@ import { AuthServiceService } from '../services/auth-service.service';
 export class ConductorPage implements OnInit {
   tieneVehiculo: boolean = false;
 
-  vje:Viajes={
+  vje: Viajes = {
     id: Date.now(),
     destino: "",
     capacidad: 0,
     costo: 0,
-    horaSalida: ""
+    horaSalida: "",
+    lat: 0,
+    lng: 0
   };
+  
   viajes: Viajes[] = [];
   currentLocation: any;
+  map: L.Map | undefined;
+  marker: L.Marker | null = null;
 
   constructor(
     private mapsService: MapsService,
@@ -31,21 +36,21 @@ export class ConductorPage implements OnInit {
 
   ngOnInit() {
     this.verificarVehiculo();
-    console.log("verificar", this.verificarVehiculo())
-    this.cargarViajes()
-  }
-
-  async ngAfterViewInit() {
-    this.currentLocation = await this.mapsService.getCurrentLocation();
-    this.mapsService.refreshMaps(this.viajes, this.currentLocation);
+    this.initCurrentLocation();
   }
 
   async initCurrentLocation() {
     try {
       this.currentLocation = await this.mapsService.getCurrentLocation();
-      console.log('Geolocalización disponible.', this.currentLocation);
+      this.initMap();
     } catch (error) {
-      console.error('Error al obtener la geolocalización:', error);
+      console.error('Error al obtener la ubicación actual:', error);
+    }
+  }
+
+  initMap() {
+    if (this.currentLocation) {
+      this.map = this.mapsService.initMap('map', this.currentLocation.lat, this.currentLocation.lng);
     }
   }
 
@@ -67,16 +72,10 @@ export class ConductorPage implements OnInit {
 
       viajes.unshift(this.vje);
       localStorage.setItem('viajes', JSON.stringify(viajes));
-      console.log('Viaje guardado:', this.vje)
+      console.log('Viaje guardado:', this.vje);
 
-      this.vje = {
-        id: Date.now(),
-        destino: "",
-        capacidad: 0,
-        costo: 0,
-        horaSalida: ""
-      };
-      this.cargarViajes();
+      // Refresca la lista de viajes
+      this.viajes = viajes; // Actualiza el estado local
       this.mapsService.refreshMaps(this.viajes, this.currentLocation); // Refresca los mapas
     } catch (error) {
       console.error('Error al crear la dirección:', error);
@@ -85,50 +84,25 @@ export class ConductorPage implements OnInit {
     }
   }
 
-  cargarViajes() {
-    const StorageViajes = localStorage.getItem('viajes');
-    if (StorageViajes) {
-      this.viajes = JSON.parse(StorageViajes);
-    } else {
-      console.log('No hay viajes disponibles.');
+  onDestinoChange() {
+    if (this.marker) {
+      this.map?.removeLayer(this.marker); // Elimina el marcador anterior
+    }
+  
+    if (this.vje.destino) {
+      this.mapsService.getLatLngFromAddress(this.vje.destino).then(location => {
+        this.vje.lat = location.lat;
+        this.vje.lng = location.lng;
+  
+        // Añadir marcador al mapa
+        this.marker = this.mapsService.addMarker(this.map, location.lat, location.lng); // Asigna el marcador a la variable
+        this.mapsService.drawRoute(this.map, this.currentLocation.lat, this.currentLocation.lng, location.lat, location.lng);
+      }).catch(error => {
+        console.error('Error al obtener la ubicación del destino:', error);
+      });
     }
   }
-
-  eliminarViaje(id: number) {
-    const StorageViajes = localStorage.getItem('viajes');
-    let viajes: Viajes[] = StorageViajes ? JSON.parse(StorageViajes) : [];
-
-    document.getElementById(`card-${id}`)?.classList.add('removing'); // Añadir clase para la animación
-
-
-    viajes = viajes.filter(viaje => viaje.id !== id);
-
-    localStorage.setItem('viajes', JSON.stringify(viajes));
-
-    console.log(`Viaje con ID ${id} eliminado.`);
-    this.cargarViajes();
-    this.mapsService.refreshMaps(this.viajes, this.currentLocation); // Refresca los mapas
-  }
-
-  initMaps() {
-    this.viajes.forEach((viaje) => {
-      if (viaje.lat !== undefined && viaje.lng !== undefined) {
-        const mapId = `map-${viaje.id}`;
-        const mapContainer = document.getElementById(mapId);
-        if (mapContainer) {
-          const map = this.mapsService.initMap(mapId, viaje.lat, viaje.lng);
-          this.mapsService.addMarker(map, viaje.lat, viaje.lng);
-
-          if (this.currentLocation) {
-            this.mapsService.addMarker(map, this.currentLocation.lat, this.currentLocation.lng);
-            this.mapsService.drawRoute(map, this.currentLocation.lat, this.currentLocation.lng, viaje.lat, viaje.lng);
-          }
-        } else {
-          console.warn(`El contenedor del mapa ${mapId} no está disponible.`);
-        }
-      }
-    });
-  }
+  
 
   verificarVehiculo() {
     this.authService.getUser().subscribe(usuario => {
@@ -137,10 +111,11 @@ export class ConductorPage implements OnInit {
           this.tieneVehiculo = !!vehiculo; 
           if (!this.tieneVehiculo) {
             console.log("El usuario no tiene vehículo habilitado.");
+          } else {
+            console.log("El usuario tiene vehículo habilitado.");
           }
         });
       }
     });
   }
-
 }

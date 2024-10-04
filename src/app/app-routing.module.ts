@@ -36,9 +36,15 @@ const routes: Routes = [
         path: '',
         redirectTo: 'home', 
         pathMatch: 'full'
+      },
+      {
+        path: 'misviajes',
+        loadChildren: () => import('./misviajes/misviajes.module').then( m => m.MisviajesPageModule)
       }
     ]
-  }
+  },
+ 
+
 ];
 
 

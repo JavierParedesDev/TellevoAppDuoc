@@ -48,15 +48,16 @@ export class MapsService {
     }).setView([lat, lng], 12);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'mapa',
+      attribution: 'TeLLevo',
     }).addTo(map);
 
     return map;
   }
 
   // Agregar marcador en el mapa
-  addMarker(map: any, lat: number, lng: number): void {
-    L.marker([lat, lng]).addTo(map);
+  addMarker(map: any, lat: number, lng: number): L.Marker {
+    const marker = L.marker([lat, lng]).addTo(map);
+    return marker; // Devuelve el marcador
   }
 
   // Dibujar ruta en el mapa
