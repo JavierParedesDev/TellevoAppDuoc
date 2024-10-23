@@ -20,12 +20,15 @@ export class DatabaseService {
     return this.firestore.collection('usuarios').valueChanges();
   }
   obtenerUsuarios() {
-    this.recuperarUsuarios().subscribe((usuarios: Usuario[]) => {
-      this.usuarios = usuarios; // Almacena los usuarios recuperados en la variable
-      console.log('Usuarios recuperados:', this.usuarios); // Para verificar en la consola
-    }, error => {
-      console.error('Error al recuperar usuarios:', error); // Manejo de errores
-    });
+    this.recuperarUsuarios().subscribe({next:(usuarios: Usuario[]) => {
+      this.usuarios = usuarios; 
+      console.log('Usuarios recuperados:', this.usuarios); 
+      
+    },
+    error :  error => {
+      console.error('Error al recuperar usuarios:', error); 
+   
+  }})
   }
 
   agregarViaje(viaje: any): Promise<void> {
