@@ -38,23 +38,6 @@ export class AuthServiceService {
     return this.afAuth.authState;
   }
 
-  getUserVehicle(userId: string): Observable<Vehiculo | null> {
-    return this.firestore
-      .collection('usuarios') // Asegúrate de que 'usuarios' es la colección correcta
-      .doc<Usuario>(userId) // Obtiene el documento del usuario por su ID
-      .get()
-      .pipe(
-        map((usuarioDoc) => {
-          if (usuarioDoc.exists) {
-            const usuarioData = usuarioDoc.data() as Usuario; // Verifica si es del tipo Usuario
-            console.log('Datos del usuario:', usuarioData); // Depuración: verifica los datos que obtienes
-            return usuarioData.vehiculo || null; // Devuelve el vehículo o null si no existe
-          }
-          console.log('El documento del usuario no existe.'); // Depuración
-          return null; // Si no existe el documento
-        })
-      );
-  }
 
   
   logout() {
