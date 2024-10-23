@@ -1,53 +1,89 @@
+<ion-header>
+  <ion-toolbar color="primary" class="toolbar-custom">
+    <!-- Avatar del usuario -->
+    <ion-avatar slot="start" class="user-avatar">
+      <img src="https://yt3.googleusercontent.com/vRF8BHREiJ3Y16AbMxEi_oEuoQlnNNqGpgULuZ6zrWSAi24HcxX3Vko42RN8ToctH-G0qlWd=s900-c-k-c0x00ffffff-no-rj" />
+    </ion-avatar>
 
-<ion-card-content>
-  <ion-toolbar color="primary">
-    <ion-title slot="end">
+    <!-- Correo del usuario -->
+    <ion-title class="email-title" slot="start">
       {{email}}
     </ion-title>
-    <ion-avatar>
-      <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </ion-avatar>
   </ion-toolbar>
-</ion-card-content>
-<ion-content >
- <ion-card-content>
-  <ion-item >
-    <ion-label>28 Viajes</ion-label>
-    <ion-label>Esta semana</ion-label>
-    <ion-icon slot="start" name="car"></ion-icon>
-  </ion-item>
-  <ion-item>
-    <ion-label>5 estrellas</ion-label>
-    <ion-icon slot="start" name="star"></ion-icon>
-  </ion-item>
-  <ion-item>
-    <ion-label>Hualpen</ion-label>
-    <ion-label>Ultimo viaje</ion-label>
-    <ion-icon slot="start" name="map"></ion-icon>
-  </ion-item>
-  <ion-item>
-    <ion-label>Total $25.000</ion-label>
-    <ion-label>Esta semana</ion-label>
-    <ion-icon slot="start" name="cash"></ion-icon>
-  </ion-item>
+</ion-header>
 
+<ion-content class="content-custom">
+  <!-- Información de viajes -->
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="card-info">
+          <ion-icon size="large"  name="car" class="icon-style"></ion-icon>
+          <ion-label>28 Viajes</ion-label>
+          <p>Esta semana</p>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card class="card-info">
+          <p>Calificación</p>
+          <ion-label>5 estrellas</ion-label>
+          <div class="star">
+            <ion-icon name="star" class="star-filled"></ion-icon>
+            <ion-icon name="star" class="star-filled"></ion-icon>
+            <ion-icon name="star" class="star-filled"></ion-icon>
+            <ion-icon name="star" class="star-filled"></ion-icon>
+            <ion-icon name="star" class="star-filled"></ion-icon>
+          </div>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card class="card-info">
+          <ion-icon size="large" name="map" class="icon-style"></ion-icon>
+          <p>Último viaje</p>
+          <ion-label>Hualpén</ion-label>
+          
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card class="card-info">
+          <ion-icon size="large" name="notifications-outline" class="pulse-animation"></ion-icon>
+          <p>Notificaciones</p>
+          <ion-badge>10</ion-badge>
+          
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card class="card-info">
+          <ion-icon size="large" name="cash" class="icon-style"></ion-icon>
+          <p>Esta semana</p>
+          <p>Total:</p>
+          <ion-label>$25.000</ion-label>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <ion-card-content>
-    <ion-text >Hola 
-      Que quieres hacer hoy ? </ion-text>
-    <ion-card button routerLink="/tabs/pasajero" class="ion-padding">
-      <ion-card class="ion-padding">
-        <ion-label>Quiero ser pasajero</ion-label>
-      </ion-card>
-      <img src="assets/pasajero2.png" alt="Logo" class="logo" />
-    </ion-card>
-    <ion-card button routerLink="/tabs/conductor" class="ion-padding">
-      <ion-card class="ion-padding">
-        <ion-label>Quiero ser conductor</ion-label>
-      </ion-card>
-      <img src="assets/conductor.png" alt="Logo" class="logo" />
-    </ion-card>
+  <!-- Opciones de pasajero o conductor -->
+  <ion-card-content class="options-card">
+    <ion-text class="greeting-text">
+      Hola, ¿Qué quieres hacer hoy?
+    </ion-text>
+
+    <ion-grid class="option-grid">
+      <ion-row>
+        <ion-col size="12">
+          <ion-card button routerLink="/tabs/pasajero" class="option-button">
+            <ion-icon name="person" class="option-icon"></ion-icon>
+            <p>Quiero ser pasajero</p>
+          </ion-card>
+        </ion-col>
+        <ion-col size="12">
+          <ion-card button routerLink="/tabs/conductor" class="option-button">
+            <ion-icon name="car" class="option-icon"></ion-icon>
+            <p>Quiero ser conductor</p>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-card-content>
- </ion-card-content>
-  
 </ion-content>

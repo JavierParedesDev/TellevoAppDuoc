@@ -1,11 +1,24 @@
-
-<ion-content>
+<ion-content class="viajes-content">
   <div *ngFor="let viaje of viajes" class="viaje-card">
-    <h3>{{ viaje.destino }}</h3>
-    <p>Capacidad: {{ viaje.capacidad }}</p>
-    <p>Costo: {{ viaje.costo }} CLP</p>
-    <p>Hora de Salida: {{ viaje.horaSalida }}</p>
-    <div id="map-{{ viaje.id }}" class="map-container"></div>
-    <ion-button (click)="eliminarViaje(viaje.id)" color="danger">Eliminar Viaje</ion-button>
+    <ion-card>
+      <ion-card-header class="viaje-header">
+        <ion-card-title>{{ viaje.destino }}</ion-card-title>
+        <ion-icon name="location" slot="start" class="viaje-icon"></ion-icon>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p class="viaje-info">Capacidad: {{ viaje.capacidad }}</p>
+        <p class="viaje-info">Costo: {{ viaje.costo }} CLP</p>
+        <p class="viaje-info">Hora de Salida: {{ viaje.horaSalida }}</p>
+
+        <!-- Contenedor del mapa -->
+        <div id="map-{{ viaje.id }}" class="map-container"></div>
+      </ion-card-content>
+
+      <ion-button expand="block" fill="outline" color="danger" (click)="eliminarViaje(viaje.id)">
+        <ion-icon name="trash" slot="start"></ion-icon>
+        Eliminar Viaje
+      </ion-button>
+    </ion-card>
   </div>
 </ion-content>

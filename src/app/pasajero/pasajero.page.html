@@ -1,38 +1,37 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary" class="toolbar-custom">
     <ion-title>Solicitar Transporte</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="viajes-content">
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-card>
-          <ion-card-header>
+        <ion-card class="viajes-card">
+          <ion-card-header class="viaje-card-header">
             <ion-card-title>Viajes Disponibles</ion-card-title>
           </ion-card-header>
-          <ion-card-content>
-           
             <ion-list>
-              <ion-item *ngFor="let viaje of viajes">
-                <ion-card class="ion-padding">
+              <ion-item *ngFor="let viaje of viajes" class="viaje-item">
+                <ion-card class="ion-padding viaje-info-card">
                   <h2>{{ viaje.destino }}</h2>
                   <p>Capacidad disponible: {{ viaje.capacidad }} personas</p>
                   <p>Costo: ${{ viaje.costo }} por persona</p>
-                  <p>Hora Salida: ${{viaje.horaSalida}}</p>
+                  <p>Hora Salida: {{ viaje.horaSalida }}</p>
+
                   <ion-button [disabled]="reserva" color="primary" fill="outline" expand="block" (click)="reservarAsiento(viaje , viaje.id)">
+                    <ion-icon name="checkmark" slot="start"></ion-icon>
                     Reservar Asiento
                   </ion-button>
-                  <ion-button (click)="eliminarReserva()" [disabled]="EliminarReserva" expand="block" fill="clear" shape="round">
+
+                  <ion-button (click)="eliminarReserva()" [disabled]="EliminarReserva" expand="block" fill="clear" shape="round" color="danger">
+                    <ion-icon name="trash" slot="start"></ion-icon>
                     Eliminar Reserva
                   </ion-button>
-                 
                 </ion-card>
               </ion-item>
-              
             </ion-list>
-          </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
