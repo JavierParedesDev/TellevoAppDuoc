@@ -2,7 +2,7 @@
   <div  id="map" style="height: 100%;"></div>
 
   <!-- Verifica si el usuario tiene vehículo habilitado -->
-  <ng-container *ngIf="tieneVehiculo; else noVehiculo">
+  <ng-container>
     <ion-card class="travel-form">
       <form (ngSubmit)="programarViaje()">
         <ion-card-content>
@@ -28,12 +28,5 @@
     </ion-card>
   </ng-container>
 
-  <ng-template #noVehiculo>
-    <ion-card>
-      <ion-card-content>
-        <h2>No tiene un vehículo habilitado.</h2>
-        <p>Por favor, registre un vehículo para poder programar un viaje.</p>
-      </ion-card-content>
-    </ion-card>
-  </ng-template>
+
 </ion-content>
