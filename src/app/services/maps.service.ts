@@ -105,6 +105,7 @@ export class MapsService {
           if (mapContainer) {
             const map = this.initMap(mapId, viaje.lat, viaje.lng);
             this.addMarker(map, viaje.lat, viaje.lng);
+            
 
             if (currentLocation) {
               this.addMarker(map, currentLocation.lat, currentLocation.lng);

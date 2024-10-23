@@ -1,27 +1,39 @@
-<ion-content color="primary">
-  <div id="map" style="height: 100%;"></div>
-  
-  <ion-card class="travel-form">
-    <form (ngSubmit)="programarViaje()">
+<ion-content color="primary" id="alertButtons">
+  <div  id="map" style="height: 100%;"></div>
+
+  <!-- Verifica si el usuario tiene vehículo habilitado -->
+  <ng-container *ngIf="tieneVehiculo; else noVehiculo">
+    <ion-card class="travel-form">
+      <form (ngSubmit)="programarViaje()">
+        <ion-card-content>
+          <ion-input name="destino" [(ngModel)]="vje.destino" type="text" placeholder="Destino"></ion-input>
+          <ion-input name="capacidad" [(ngModel)]="vje.capacidad" type="number" label="Capacidad"></ion-input>
+          <ion-input name="costo" [(ngModel)]="vje.costo" type="number" label="Costo"></ion-input>
+          <ion-label>Hora de salida</ion-label>
+          <ion-datetime
+            name="horaSalida"
+            [(ngModel)]="vje.horaSalida"
+            presentation="time"
+            placeholder="Seleccionar hora"
+            cancel-text="Cancelar"
+            done-text="Hecho"
+            hour-cycle="h23"
+          ></ion-datetime>
+          
+          <ion-button expand="block" color="primary" type="submit">
+            Registrar viaje
+          </ion-button>
+        </ion-card-content>
+      </form>
+    </ion-card>
+  </ng-container>
+
+  <ng-template #noVehiculo>
+    <ion-card>
       <ion-card-content>
-        <ion-input name="destino" [(ngModel)]="vje.destino" type="text" placeholder="Destino"></ion-input>
-        <ion-input name="capacidad" [(ngModel)]="vje.capacidad" type="number" label="Capacidad"></ion-input>
-        <ion-input name="costo" [(ngModel)]="vje.costo" type="number" label="Costo"></ion-input>
-        <ion-label>Hora de salida</ion-label>
-        <ion-datetime
-          name="horaSalida"
-          [(ngModel)]="vje.horaSalida"
-          presentation="time"
-          placeholder="Seleccionar hora"
-          cancel-text="Cancelar"
-          done-text="Hecho"
-          hour-cycle="h23"
-        ></ion-datetime>
-        
-        <ion-button expand="block" color="primary" type="submit">
-          Registrar viaje
-        </ion-button>
+        <h2>No tiene un vehículo habilitado.</h2>
+        <p>Por favor, registre un vehículo para poder programar un viaje.</p>
       </ion-card-content>
-    </form>
-  </ion-card>
+    </ion-card>
+  </ng-template>
 </ion-content>

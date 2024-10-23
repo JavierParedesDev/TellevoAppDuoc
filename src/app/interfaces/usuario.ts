@@ -1,7 +1,8 @@
 import { Vehiculo } from "./vehiculo";
 
 export interface Usuario {
-    id: number;
+    idUser: string;
+    id: string;
     nombre:string;
     email: string;
     contrasena:string;

@@ -6,4 +6,5 @@ export interface Viajes {
     horaSalida: string;
     lat?: number;
     lng?: number;
+    usuarioId: string; 
 }

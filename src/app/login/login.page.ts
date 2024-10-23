@@ -15,7 +15,8 @@ import { AuthServiceService } from '../services/auth-service.service';
 export class LoginPage implements OnInit {
 
   urs:Usuario={
-    id: Date.now(),
+    id: Date.now().toString(),
+    idUser: "",
     nombre: "",
     email: "",
     contrasena: ""

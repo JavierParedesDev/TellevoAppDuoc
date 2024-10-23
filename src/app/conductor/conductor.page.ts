@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Viajes } from '../interfaces/viajes';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, BooleanValueAccessor, LoadingController } from '@ionic/angular';
 import { MapsService } from '../services/maps.service';
 import { AuthServiceService } from '../services/auth-service.service';
 import * as L from 'leaflet';
+import { DatabaseService } from '../services/database.service';
+import { Usuario } from '../interfaces/usuario';
+import { flush } from '@angular/core/testing';
 
 @Component({
   selector: 'app-conductor',
@@ -12,6 +15,9 @@ import * as L from 'leaflet';
 })
 export class ConductorPage implements OnInit {
   tieneVehiculo: boolean = false;
+  userId: string | null = null;
+  usuarioId: string | null = null;
+
 
   vje: Viajes = {
     id: Date.now(),
@@ -20,7 +26,8 @@ export class ConductorPage implements OnInit {
     costo: 0,
     horaSalida: "",
     lat: 0,
-    lng: 0
+    lng: 0,
+    usuarioId: ''
   };
   
   viajes: Viajes[] = [];
@@ -31,12 +38,16 @@ export class ConductorPage implements OnInit {
   constructor(
     private mapsService: MapsService,
     private loadingController: LoadingController,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private databaseService: DatabaseService,
+    private alertCtrl : AlertController
   ) {}
 
   ngOnInit() {
     this.verificarVehiculo();
     this.initCurrentLocation();
+    this.obtenerUsuarioId(); 
+    console.log(this.databaseService.obtenerUsuarios(), "aqui")
   }
 
   async initCurrentLocation() {
@@ -46,6 +57,16 @@ export class ConductorPage implements OnInit {
     } catch (error) {
       console.error('Error al obtener la ubicación actual:', error);
     }
+  }
+  obtenerUsuarioId() {
+    this.authService.getUser().subscribe(usuario => {
+      if (usuario) {
+        this.usuarioId = usuario.uid; // Almacena el ID del usuario
+        console.log('ID del usuario:', this.usuarioId);
+      } else {
+        console.log('No hay usuario autenticado');
+      }
+    });
   }
 
   initMap() {
@@ -59,6 +80,13 @@ export class ConductorPage implements OnInit {
       message: 'Creando dirección...',
     });
     await loading.present();
+    if (this.usuarioId) {
+      this.vje.usuarioId = this.usuarioId; // Agrega el ID del usuario al viaje
+    } else {
+      console.error('El ID del usuario es null. No se puede crear el viaje.');
+      await loading.dismiss(); // Cierra el loading si no hay usuario
+      return; // Termina el método si no hay usuario
+    }
 
     const StorageViajes = localStorage.getItem('viajes');
     let viajes: Viajes[] = StorageViajes ? JSON.parse(StorageViajes) : [];
@@ -70,9 +98,9 @@ export class ConductorPage implements OnInit {
       this.vje.lat = location.lat;
       this.vje.lng = location.lng;
 
-      viajes.unshift(this.vje);
-      localStorage.setItem('viajes', JSON.stringify(viajes));
-      console.log('Viaje guardado:', this.vje);
+      // Guardar el viaje en Firestore
+      await this.databaseService.agregarViaje(this.vje);
+      console.log('Viaje guardado en Firestore:', this.vje);
 
       // Refresca la lista de viajes
       this.viajes = viajes; // Actualiza el estado local
@@ -104,18 +132,43 @@ export class ConductorPage implements OnInit {
   }
   
 
+  
   verificarVehiculo() {
     this.authService.getUser().subscribe(usuario => {
       if (usuario) {
-        this.authService.getUserVehicle(usuario.uid).subscribe(vehiculo => {
-          this.tieneVehiculo = !!vehiculo; 
-          if (!this.tieneVehiculo) {
-            console.log("El usuario no tiene vehículo habilitado.");
+        const usuarioId = usuario.uid; // ID del usuario autenticado
+  
+        // Recupera la lista de usuarios
+        this.databaseService.recuperarUsuarios().subscribe((usuarios: Usuario[]) => {
+          // Filtra para encontrar el usuario actual
+          const usuarioActual = usuarios.find(u => u.idUser === usuarioId);
+  
+          if (usuarioActual) {
+            // Verifica si el usuario tiene vehículo
+            if (usuarioActual.vehiculo) {
+              console.log('El usuario tiene vehículo habilitado:', usuarioActual.vehiculo);
+              this.tieneVehiculo = true;
+            } else {
+              console.log('El usuario no tiene vehículo habilitado.');
+              this.tieneVehiculo = false;
+            }
           } else {
-            console.log("El usuario tiene vehículo habilitado.");
+            console.log('No se encontró el usuario actual.');
+            this.tieneVehiculo = false; // Asumimos que no tiene vehículo si no se encuentra
           }
+        }, error => {
+          console.error('Error al recuperar usuarios:', error);
         });
+      } else {
+        console.log('No hay usuario autenticado');
       }
     });
   }
+  
+  
+  
+  
+
+  
 }
+

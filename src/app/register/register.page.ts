@@ -13,7 +13,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth'; // Asegúrate de im
 })
 export class RegisterPage implements OnInit {
   usr: Usuario = {
-    id: Date.now(),
+    id: Date.now().toString(),
+    idUser: "",
     nombre: "",
     email: "",
     contrasena: ""
@@ -99,7 +100,8 @@ export class RegisterPage implements OnInit {
 
   resetearCampos() {
     this.usr = {
-      id: Date.now(),
+      id: Date.now().toString(),
+      idUser: "",
       nombre: "",
       email: "",
       contrasena: ""

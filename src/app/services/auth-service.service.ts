@@ -40,16 +40,18 @@ export class AuthServiceService {
 
   getUserVehicle(userId: string): Observable<Vehiculo | null> {
     return this.firestore
-      .collection('usuarios')
-      .doc<Usuario>(userId)
+      .collection('usuarios') // Asegúrate de que 'usuarios' es la colección correcta
+      .doc<Usuario>(userId) // Obtiene el documento del usuario por su ID
       .get()
       .pipe(
         map((usuarioDoc) => {
           if (usuarioDoc.exists) {
-            const usuarioData = usuarioDoc.data() as Usuario; // Asegúrate de que sea del tipo Usuario
-            return usuarioData.vehiculo || null; // Devuelve el vehículo o null
+            const usuarioData = usuarioDoc.data() as Usuario; // Verifica si es del tipo Usuario
+            console.log('Datos del usuario:', usuarioData); // Depuración: verifica los datos que obtienes
+            return usuarioData.vehiculo || null; // Devuelve el vehículo o null si no existe
           }
-          return null; // Si el documento no existe, retorna null
+          console.log('El documento del usuario no existe.'); // Depuración
+          return null; // Si no existe el documento
         })
       );
   }

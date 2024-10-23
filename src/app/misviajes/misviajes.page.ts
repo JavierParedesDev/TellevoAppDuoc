@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LatLng } from 'leaflet';
 import { Viajes } from 'src/app/interfaces/viajes';
 import { MapsService } from 'src/app/services/maps.service';
+import { DatabaseService } from 'src/app/services/database.service'; // Asegúrate de importar el servicio de base de datos
+import { AuthServiceService } from 'src/app/services/auth-service.service'; // Asegúrate de importar el servicio de autenticación
 
 @Component({
   selector: 'app-misviajes',
@@ -11,23 +13,35 @@ import { MapsService } from 'src/app/services/maps.service';
 export class MisviajesPage implements OnInit {
   viajes: Viajes[] = [];
   currentLocation: any;
+  currentUserId: string = ''; // Para almacenar el ID del usuario actual
 
-  constructor(private mapsService: MapsService) {}
+  constructor(private mapsService: MapsService, private databaseService: DatabaseService, private authService: AuthServiceService) {}
 
   ngOnInit() {
-    this.cargarViajes();
+    this.authService.getUser().subscribe(usuario => {
+      if (usuario) {
+        this.currentUserId = usuario.uid; // Obtener el ID del usuario
+        this.cargarViajes(); // Cargar viajes solo después de obtener el ID
+      }
+    });
     this.initCurrentLocation();
   }
 
   cargarViajes() {
-  const StorageViajes = localStorage.getItem('viajes');
-  if (StorageViajes) {
-    this.viajes = JSON.parse(StorageViajes);
-    console.log('Viajes cargados:', this.viajes); // Verifica que los viajes se están cargando correctamente
-  } else {
-    console.log('No hay viajes disponibles.');
+    // Recuperar los viajes de Firestore
+    this.databaseService.recuperarViajes().subscribe(viajes => {
+      // Filtrar viajes para mostrar solo los del usuario actual
+      this.viajes = viajes.filter(viaje => viaje.usuarioId === this.currentUserId);
+      console.log('Viajes cargados desde Firestore para el usuario actual:', this.viajes); // Verifica que los viajes se están filtrando correctamente
+      this.refreshMaps();
+    }, error => {
+      console.error('Error al cargar viajes de Firestore:', error);
+    });
   }
-}
+
+  refreshMaps() {
+    this.mapsService.refreshMaps(this.viajes, this.currentLocation);
+  }
 
   async initCurrentLocation() {
     try {
@@ -39,19 +53,13 @@ export class MisviajesPage implements OnInit {
   }
 
   eliminarViaje(id: number) {
-    const StorageViajes = localStorage.getItem('viajes');
-    let viajes: Viajes[] = StorageViajes ? JSON.parse(StorageViajes) : [];
-
-    // Filtrar el viaje que se va a eliminar
-    viajes = viajes.filter(viaje => viaje.id !== id);
-
-    // Guardar los viajes restantes en localStorage
-    localStorage.setItem('viajes', JSON.stringify(viajes));
-
-    // Volver a cargar los viajes para reflejar los cambios en la UI
-    this.cargarViajes();
+    // Eliminar el viaje de Firestore
+    this.databaseService.eliminarViaje(id).then(() => {
+      console.log('Viaje eliminado de Firestore:', id);
+      // Volver a cargar los viajes para reflejar los cambios en la UI
+      this.cargarViajes();
+    }).catch(error => {
+      console.error('Error al eliminar el viaje:', error);
+    });
   }
-
-  
-  
 }
