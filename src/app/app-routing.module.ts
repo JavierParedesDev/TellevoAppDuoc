@@ -40,9 +40,15 @@ const routes: Routes = [
       {
         path: 'misviajes',
         loadChildren: () => import('./misviajes/misviajes.module').then( m => m.MisviajesPageModule)
-      }
+      },
+      {
+        path: 'setting',
+        loadChildren: () => import('./settings/setting/setting.module').then( m => m.SettingPageModule)
+      },
     ]
   },
+
+
  
 
 ];
