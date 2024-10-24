@@ -1,14 +1,14 @@
-<ion-tabs>
+<ion-tabs >
 
 
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="home">
       <ion-icon name="home"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button disabled="{{tieneVehiculo}}" tab="conductor">
+    <ion-tab-button  *ngIf="usuario.vehiculo" tab="conductor">
       <ion-icon name="car"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button  disabled="{{tieneVehiculo}}" tab="misviajes">
+    <ion-tab-button  *ngIf="usuario.vehiculo" tab="misviajes">
       <ion-icon name="map"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="pasajero">
