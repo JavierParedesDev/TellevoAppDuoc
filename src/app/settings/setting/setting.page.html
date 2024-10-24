@@ -1,0 +1,91 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Configuración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item button>
+      <ion-icon slot="start" name="person"></ion-icon>
+      <ion-label (click)="setOpen(true)">Perfil</ion-label>
+    </ion-item>
+    <ion-item button>
+      <ion-icon slot="start" name="notifications"></ion-icon>
+      <ion-label>Notificación</ion-label>
+    </ion-item>
+    <ion-item button>
+      <ion-icon slot="start" name="help"></ion-icon>
+      <ion-label>Ayuda</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Editar Perfil</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form>
+          <!-- Foto de perfil -->
+          <ion-item>
+            <ion-label>Foto de Perfil</ion-label>
+            <ion-input type="file"></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Nombre</ion-label>
+            <ion-input type="text" name="userName" required></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Correo Electrónico</ion-label>
+            <ion-input type="email"  name="userEmail" required></ion-input>
+          </ion-item>
+  
+        
+          <ion-item>
+            <ion-label position="stacked">Contraseña</ion-label>
+            <ion-input type="password"  name="userPassword" required></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label>¿Tienes vehículo?</ion-label>
+            <ion-checkbox name="hasVehicle"></ion-checkbox>
+          </ion-item>
+  
+          <div >
+            <ion-item>
+              <ion-label position="stacked">Marca del Vehículo</ion-label>
+              <ion-input type="text"  name="vehicleBrand"></ion-input>
+            </ion-item>
+  
+            <ion-item>
+              <ion-label position="stacked">Modelo del Vehículo</ion-label>
+              <ion-input type="text"  name="vehicleModel"></ion-input>
+            </ion-item>
+  
+            <ion-item>
+              <ion-label position="stacked">Placa del Vehículo</ion-label>
+              <ion-input type="text"  name="vehiclePlate"></ion-input>
+            </ion-item>
+          </div>
+  
+          <ion-button expand="full" >Guardar Cambios</ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer>
+    <ion-item button color="danger" >
+      <ion-icon slot="start" name="lock-closed"></ion-icon>
+      <ion-label>Cerrar Sesión</ion-label>
+    </ion-item>
+</ion-footer>
