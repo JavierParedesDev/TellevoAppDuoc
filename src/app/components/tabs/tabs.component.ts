@@ -10,8 +10,9 @@ import { DatabaseService } from 'src/app/services/database.service';
 })
 export class TabsComponent  implements OnInit {
   tieneVehiculo = true;
-  userId: string | null = null;
-  usuarioId: string | null = null;
+  usuario: any;
+
+  
 
   constructor(
     private authService: AuthServiceService,
@@ -20,6 +21,9 @@ export class TabsComponent  implements OnInit {
 
   ngOnInit() {
     this.verificarVehiculo();
+    this.usuario = {
+      vehiculo: false
+    };
   }
 
 
@@ -37,14 +41,14 @@ export class TabsComponent  implements OnInit {
             // Verifica si el usuario tiene vehículo
             if (usuarioActual.vehiculo) {
               console.log('El usuario tiene vehículo habilitado:', usuarioActual.vehiculo);
-              this.tieneVehiculo = false;
+              this.usuario.vehiculo = true;
             } else {
               console.log('El usuario no tiene vehículo habilitado.');
-              this.tieneVehiculo = true;
+              this.usuario.vehiculo = false;
             }
           } else {
             console.log('No se encontró el usuario actual.');
-            this.tieneVehiculo = true; // Asumimos que no tiene vehículo si no se encuentra
+            this.usuario.vehiculo = false;
           }
         }, error => {
           console.error('Error al recuperar usuarios:', error);
