@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
       console.log(user)
     })
   
+    //agregar las notificaciones 
   }
 
   
