@@ -1,35 +1,43 @@
-<ion-content class="login-content">
-  <ion-grid>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size-md="6" size-lg="4">
-        <ion-card class="login-card">
-          <ion-card-header>
-            <ion-card-title class="ion-text-center pacifico-regular">TeLLevoApp</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <form (ngSubmit)="login()">
-              <ion-item>
-                <ion-label position="floating">Correo Electrónico</ion-label>
-                <ion-input type="email" [(ngModel)]="urs.email" name="email" required></ion-input>
-              </ion-item>
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <img class="mx-auto w-auto" src="assets/LOGOTELLEVO.png" alt="TeLLevoApp Logo">
+  </div>
 
-              <ion-item>
-                <ion-label position="floating">Contraseña</ion-label>
-                <ion-input type="password" [(ngModel)]="urs.contrasena" name="contrasena" required></ion-input>
-              </ion-item>
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form class="space-y-6" action="#" method="POST" (ngSubmit)="login()">
+      <div>
+        <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
+        <div class="mt-2">
+          <input id="email" name="email" type="email" [(ngModel)]="urs.email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+        </div>
+      </div>
 
-              <ion-button expand="full" color="primary" type="submit">Ingresar</ion-button>
-            </form>
+      <div>
+        <div class="flex items-center justify-between">
+          <label for="password" class="block text-sm/6 font-medium text-gray-900">Contraseña</label>
+          <div class="text-sm">
+            <a class="font-semibold text-a">¿Has olvidado tu contraseña?</a>
+          </div>
+        </div>
+        <div class="mt-2">
+          <input id="password" name="password" type="password" [(ngModel)]="urs.contrasena" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+        </div>
+      </div>
 
-            <ion-button expand="full" fill="clear" routerLink="/recover-password">
-              ¿Olvidaste tu contraseña?
-            </ion-button>
-            <ion-button expand="full" fill="outline" routerLink="/register">
-              Crear una cuenta
-            </ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+      <div>
+        <ion-button expand="block" type="submit" class="text-sm font-semibold shadow-sm" color="primary">
+          Entrar
+        </ion-button>
+      </div>
+    </form>
+
+    <p class="mt-10 text-center text-sm text-gray-500">
+      ¿No tienes cuenta?
+      <a routerLink="/register" class="font-semibold  text-a">Regístrate</a>
+    </p>
+    
+  </div>
+
+
+
+</div>
