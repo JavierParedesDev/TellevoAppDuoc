@@ -1,9 +1,18 @@
 
-
-.toolbar-custom {
-  --background: #fff;
-  --ion-toolbar-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  height: 70px;
+ion-toolbar{
+  background-color: var(--ion-color-primary);
+  height: 200px;
+  padding-top: 30px;
+  padding-left: 10px;
+}
+.contenido-div{
+  border-radius: 50px 50px 0 0;
+  transform: translateY(-50px);
+  z-index: 999;
+  background-color: #ffffff;
+}
+.div-header{
+  padding: 5px;
 }
 
 .user-avatar img {
@@ -13,86 +22,31 @@
 
 .email-title {
   font-weight: bold;
-  font-size: 18px;
-}
+  font-size: 15px;
 
-.car-info ion-icon {
-  color: #ffaa00;
+    p{
+      font-size: 10px;
+      color: #bbbbbb;
+    }
 }
-
-.content-custom {
-  background-color: #f5f5f5;
-}
-
-.card-info {
+.stat-card {
   display: flex;
-  flex-direction: column;
+  gap: 10px;
   align-items: center;
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-
-.star-filled {
-  color: #ffaa00;
-}
-
-.options-card {
-  margin: 20px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.greeting-text {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-}
-
-.option-grid {
-  margin-top: 20px;
-}
-
-.option-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 1rem;
   text-align: center;
-  align-items: center;
-  padding: 15px;
-  background-color: #4caf50;
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  border-radius: 20px 0 30px 0;
 }
 
-.option-icon {
-  font-size: 40px;
-  margin-bottom: 10px;
-  padding: 10px;
+.stat-icon {
+  font-size: 2rem;
+  color: #4a90e2;
+  margin-right: 0.5rem;
 }
 
-
-//animaciones
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-    
-  }
-  100% {
-    transform: scale(1);
-    
-  }
-}
-
-.pulse-animation {
-  animation: pulse 1.5s infinite; 
+.stat-text h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
 }
