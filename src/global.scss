@@ -40,16 +40,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- ion-content {
-    --background: none; /* Elimina el fondo predeterminado */
-    background-image: url('https://img.freepik.com/vector-premium/textura-blanca-fondo-degrada-color-blanco_737564-275.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
+
 .pacifico-regular {
     font-family: "Pacifico", cursive;
     font-weight: 400;
     font-style: normal;
   }
+
+.text-a{
+  color: var(--ion-color-primary);
+}
