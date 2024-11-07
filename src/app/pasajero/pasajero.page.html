@@ -20,7 +20,7 @@
                   <p>Costo: ${{ viaje.costo }} por persona</p>
                   <p>Hora Salida: {{ viaje.horaSalida }}</p>
 
-                  <ion-button [disabled]="reserva" color="primary" fill="outline" expand="block" (click)="reservarAsiento(viaje, viaje.id , viaje.capacidad)">
+                  <ion-button [disabled]="reserva" color="primary" fill="outline" expand="block" (click)="reservarAsiento(viaje, viaje.id , viaje.capacidad, viaje.usuarioId)">
                     <ion-icon name="checkmark" slot="start"></ion-icon>
                     Reservar Asiento
                   </ion-button>

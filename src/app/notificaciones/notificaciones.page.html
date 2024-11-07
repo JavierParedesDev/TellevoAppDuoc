@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Notificaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let notificacion of notificaciones$ | async">
+      <ion-label>
+        <h2>{{ notificacion.tipo }}</h2>
+        <p>{{ notificacion.mensaje }}</p>
+        <p><small>{{ notificacion.fecha?.toDate() | date }}</small></p>
+      </ion-label>
+      <ion-button (click)="marcarComoLeida(notificacion.id)">Marcar como leída</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

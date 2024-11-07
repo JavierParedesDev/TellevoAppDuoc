@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
-import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-home',

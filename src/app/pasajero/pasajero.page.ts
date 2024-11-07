@@ -42,16 +42,42 @@ export class PasajeroPage implements OnInit {
     });
   }
 
-  reservarAsiento(viaje: Viajes , id :number, capacidad : number ) {
+  reservarAsiento(viaje: Viajes, id: number, capacidad: number, usuarioId: string) {
     console.log(viaje);
+  
+    // Mostrar una alerta de reserva exitosa
     this.alertas("Asiento Reservado", "Su destino es: " + viaje.destino);
     this.reserva = true;
     this.EliminarReserva = false;
-    // nota: me falta verificar los viajes en 0 y poner condicion
+  
+    // Calcular la nueva capacidad
     const nueva_capacidad = capacidad - 1;
-    console.log(capacidad);
-    return this.firestore.collection('viajes').doc(id.toString()).update({capacidad : nueva_capacidad})
+    console.log("Capacidad restante:", nueva_capacidad);
+  
+    // 1. Actualizar la capacidad en Firestore
+    this.firestore.collection('viajes').doc(id.toString()).update({ capacidad: nueva_capacidad })
+      .then(() => {
+        // 2. Agregar la notificación a la colección de notificaciones del usuario
+        const notificacion = {
+          tipo: 'Reserva Asiento', // Tipo de notificación
+          mensaje: `Has reservado un asiento para el viaje a ${viaje.destino}.`, // Mensaje
+          fecha: new Date(), // Fecha y hora de la notificación
+          leido: false, // Notificación no leída inicialmente
+          usuarioId: usuarioId, // El ID del usuario que hizo la reserva
+          viajeId: id // ID del viaje asociado a la notificación
+        };
+  
+        // 3. Guardar la notificación en Firestore
+        return this.firestore.collection('notificaciones').add(notificacion);
+      })
+      .then(() => {
+        console.log("Notificación agregada correctamente.");
+      })
+      .catch((error) => {
+        console.error("Error al actualizar la capacidad o agregar la notificación: ", error);
+      });
   }
+  
 
   eliminarReserva(id:number , capacidad: number) {
     this.EliminarReserva = true;
