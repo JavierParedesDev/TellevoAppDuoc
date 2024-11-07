@@ -1,58 +1,75 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Registrarse</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>Crear Cuenta</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <form (ngSubmit)="registro()">
-              <ion-item>
-                <ion-label position="floating">Nombre Completo</ion-label>
-                <ion-input [(ngModel)]="usr.nombre" name="nombre" required type="text"></ion-input>
-              </ion-item>
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="text-xl text-center text-a">
+      Registro
+    </div>
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form class="space-y-6" action="#" method="POST" (ngSubmit)="registro()">
+        <div>
+          <label for="email" class="block text-sm/6 font-medium text-gray-900">Nombre</label>
+          <div class="mt-2">
+            <input id="email" name="email" type="email" [(ngModel)]="usr.nombre" autocomplete="email" required
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+          </div>
+        </div>
+  
+        <div>
+          <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
+          <div class="mt-2">
+            <input id="email" name="email" type="email" [(ngModel)]="usr.email" autocomplete="email" required
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+          </div>
+        </div>
+  
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm/6 font-medium text-gray-900">Contraseña</label>
+            <div class="text-sm">
+  
+            </div>
+          </div>
+          <div class="mt-2">
+            <input id="password" name="password" type="password" [(ngModel)]="usr.contrasena"
+              autocomplete="current-password" required
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+          </div>
+        </div>
+  
+  
+        <ion-item>
+          <ion-checkbox [(ngModel)]="tieneVehiculo" name="checkbox">Tienes Vehículo?</ion-checkbox>
+        </ion-item>
+  
+        <ion-item [disabled]="!tieneVehiculo">
+          <ion-label position="floating">Marca</ion-label>
+          <ion-input [(ngModel)]="vcl.marca" name="marca" type="text"></ion-input>
+        </ion-item>
+  
+        <ion-item [disabled]="!tieneVehiculo">
+          <ion-label position="floating">Modelo</ion-label>
+          <ion-input [(ngModel)]="vcl.modelo" name="modelo" type="text"></ion-input>
+        </ion-item>
+  
+        <ion-item [disabled]="!tieneVehiculo">
+          <ion-label position="floating">Año</ion-label>
+          <ion-input [(ngModel)]="vcl.date" name="año" type="number"></ion-input>
+        </ion-item>
+  
+  
+        <div>
+          <ion-button expand="block" type="submit" class="text-sm font-semibold shadow-sm" color="primary">
+            Registrarse
+          </ion-button>
+        </div>
 
-              <ion-item>
-                <ion-label position="floating">Correo Electrónico</ion-label>
-                <ion-input [(ngModel)]="usr.email" name="email" required type="email"></ion-input>
-              </ion-item>
-
-              <ion-item>
-                <ion-label position="floating">Contraseña</ion-label>
-                <ion-input [(ngModel)]="usr.contrasena" name="contrasena" required type="password"></ion-input>
-              </ion-item>
-              
-              <ion-item>
-                <ion-checkbox [(ngModel)]="tieneVehiculo" name="checkbox">Tienes Vehículo?</ion-checkbox>
-              </ion-item>
-
-              <ion-item [disabled]="!tieneVehiculo">
-                <ion-label position="floating">Marca</ion-label>
-                <ion-input [(ngModel)]="vcl.marca" name="marca" type="text"></ion-input>
-              </ion-item>
-
-              <ion-item [disabled]="!tieneVehiculo">
-                <ion-label position="floating">Modelo</ion-label>
-                <ion-input [(ngModel)]="vcl.modelo" name="modelo" type="text"></ion-input>
-              </ion-item>
-
-              <ion-item [disabled]="!tieneVehiculo">
-                <ion-label position="floating">Año</ion-label>
-                <ion-input [(ngModel)]="vcl.date" name="año" type="number"></ion-input>
-              </ion-item>
-
-              <ion-button type="submit" expand="full" color="secondary">Registrarse</ion-button>
-            </form>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        <p class="mt-10 text-center text-sm text-gray-500">
+          ¿Tienes Cuenta?
+          <a routerLink="/login" class="font-semibold  text-a">Login</a>
+        </p>
+      </form>
+    </div>
+  
+  </div>
+  
 </ion-content>
