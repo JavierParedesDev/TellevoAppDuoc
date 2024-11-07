@@ -36,6 +36,10 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
  ion-content {
     --background: none; /* Elimina el fondo predeterminado */
     background-image: url('https://img.freepik.com/vector-premium/textura-blanca-fondo-degrada-color-blanco_737564-275.jpg');
