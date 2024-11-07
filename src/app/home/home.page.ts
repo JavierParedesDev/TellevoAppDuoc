@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,7 @@ export class HomePage implements OnInit {
 
 
   constructor(
-    private authServi: AuthServiceService
+    private authServi: AuthServiceService,
   ) {}
   ngOnInit() {
     this.authServi.getUser().subscribe(user => {
@@ -19,8 +20,14 @@ export class HomePage implements OnInit {
       console.log(user)
     })
   
+
+    
+  
+  
     //agregar las notificaciones 
   }
+
+
 
   
 
