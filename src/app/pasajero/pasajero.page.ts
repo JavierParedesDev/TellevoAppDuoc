@@ -144,25 +144,59 @@ export class PasajeroPage implements OnInit {
       });
   }
 
-  eliminarReserva(viajeId: string, capacidad: number) {
+  eliminarReserva(viajeId: string, capacidad: number, creadorId: string) {
     this.EliminarReserva = true;
     this.reserva = false;
-
-    // Aumentar la capacidad al eliminar la reserva
+  
     const nueva_capacidad = capacidad + 1;
-
-    // 1. Actualizar la capacidad en Firestore
-    return this.firestore
+  
+    // 1. Update the trip capacity in Firestore
+    this.firestore
       .collection("viajes")
       .doc(viajeId)
       .update({ capacidad: nueva_capacidad })
       .then(() => {
         console.log("Reserva eliminada y capacidad actualizada.");
+  
+        // 2. Find and delete the original reservation notification
+        this.firestore.collection("notificaciones", ref => 
+          ref.where("viajeId", "==", viajeId)
+             .where("reservaUsuarioId", "==", this.currentUserId)
+             .where("tipo", "==", "Reserva Asiento")
+        ).get().subscribe(snapshot => {
+          snapshot.forEach(doc => {
+            doc.ref.delete().then(() => {
+              console.log("Notificación de reserva eliminada.");
+            }).catch(error => {
+              console.error("Error al eliminar la notificación de reserva:", error);
+            });
+          });
+        });
+  
+        // 3. Create a new cancellation notification for the trip creator
+        const cancelNotification = {
+          notificationId: Date.now().toString(),
+          tipo: "Cancelación Reserva", 
+          mensaje: `El usuario ${this.currentUserName} ha cancelado su reserva para el viaje a ${viajeId}.`,
+          fecha: new Date(),
+          leido: false,
+          usuarioId: creadorId,  // ID of the trip creator
+          reservaUsuarioId: this.currentUserId,  // ID of the user canceling
+          viajeId: viajeId
+        };
+  
+        // 4. Add the cancellation notification to Firestore
+        return this.firestore.collection("notificaciones").add(cancelNotification);
       })
-      .catch((error) => {
-        console.error("Error al eliminar la reserva: ", error);
+      .then(() => {
+        console.log("Notificación de cancelación agregada correctamente.");
+      })
+      .catch(error => {
+        console.error("Error al eliminar la reserva o crear la notificación de cancelación:", error);
       });
   }
+  
+  
 
   async alertas(headerMensaje: string, mensaje: string) {
     const newAlerta = await this.alert.create({
