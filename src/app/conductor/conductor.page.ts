@@ -34,6 +34,7 @@ export class ConductorPage implements OnInit {
   currentLocation: any;
   map: L.Map | undefined;
   marker: L.Marker | null = null;
+  currentUserName: string = "";
 
   constructor(
     private mapsService: MapsService,
@@ -47,7 +48,16 @@ export class ConductorPage implements OnInit {
     
     this.initCurrentLocation();
     this.obtenerUsuarioId(); 
-    console.log(this.databaseService.obtenerUsuarios(), "aqui")
+    console.log(this.databaseService.obtenerUsuarios(), "aqui") 
+    this.databaseService.obtenerNombreUsuarioActual().subscribe({
+      next: (nombre) => {
+        this.currentUserName = nombre;
+        console.log('Nombre del usuario:', this.currentUserName);
+      },
+      error: (error) => {
+        console.error('Error al obtener el nombre del usuario:', error);
+      },
+    });
   }
 
   async initCurrentLocation() {
@@ -82,6 +92,7 @@ export class ConductorPage implements OnInit {
     await loading.present();
     if (this.usuarioId) {
       this.vje.usuarioId = this.usuarioId; // Agrega el ID del usuario al viaje
+      this.vje.nombreCreador = this.currentUserName // agregue el nombre de usuario
     } else {
       console.error('El ID del usuario es null. No se puede crear el viaje.');
       await loading.dismiss(); // Cierra el loading si no hay usuario

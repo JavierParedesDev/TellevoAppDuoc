@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { DatabaseService } from 'src/app/services/database.service';
@@ -11,12 +12,14 @@ import { DatabaseService } from 'src/app/services/database.service';
 export class TabsComponent  implements OnInit {
   tieneVehiculo = true;
   usuario: any;
+  notificacionesNuevas: number = 0;
 
   
 
   constructor(
     private authService: AuthServiceService,
     private databaseService: DatabaseService,
+    private firestore: AngularFirestore,
   ) { }
 
   ngOnInit() {
@@ -24,8 +27,32 @@ export class TabsComponent  implements OnInit {
     this.usuario = {
       vehiculo: false
     };
+    this.obtenerUsuario();
+    this.obtenerNotificaciones();
   }
 
+  obtenerUsuario() {
+    this.authService.getUser().subscribe(usuario => {
+      if (usuario) {
+        this.usuario = usuario; // Guardar el usuario actual
+        this.obtenerNotificaciones(); // Obtenemos las notificaciones cuando tenemos el usuario
+      }
+    });
+  }
+  obtenerNotificaciones() {
+    // Si el usuario está autenticado, obtenemos sus notificaciones
+    if (this.usuario?.uid) {
+      this.firestore
+        .collection("notificaciones", ref => 
+          ref.where("usuarioId", "==", this.usuario.uid)
+             .where("leido", "==", false) // Solo las no leídas
+        )
+        .valueChanges()
+        .subscribe((notificaciones: any[]) => {
+          this.notificacionesNuevas = notificaciones.length; // Contamos las notificaciones no leídas
+        });
+    }
+  }
 
   verificarVehiculo() {
     this.authService.getUser().subscribe(usuario => {

@@ -14,21 +14,62 @@ export class DatabaseService {
 
   constructor(
     private firestore: AngularFirestore,
+    private authService: AuthServiceService
   ) { }
 
   recuperarUsuarios(): Observable<any[]> {
     return this.firestore.collection('usuarios').valueChanges();
   }
-  obtenerUsuarios() {
-    this.recuperarUsuarios().subscribe({next:(usuarios: Usuario[]) => {
-      this.usuarios = usuarios; 
-      console.log('Usuarios recuperados:', this.usuarios); 
-      
-    },
-    error :  error => {
-      console.error('Error al recuperar usuarios:', error); 
-   
-  }})
+  obtenerUsuarios(): Observable<Usuario[]> {
+    return this.firestore
+      .collection<Usuario>('usuarios')  // Suponiendo que la colección se llama 'usuarios'
+      .valueChanges();  // Obtiene los usuarios como un array
+  }
+  obtenerNombreUsuarioActual(): Observable<string> {
+    return new Observable<string>((observer) => {
+      // Obtener el ID del usuario actual desde el AuthService
+      this.authService.getUser().subscribe((usuario) => {
+        if (usuario) {
+          const currentUserId = usuario.uid;
+          
+          // Recuperamos todos los usuarios
+          this.obtenerUsuarios().subscribe((usuarios) => {
+            // Buscar el usuario actual por el ID
+            const usuarioEncontrado = usuarios.find(
+              (usuario) => usuario.idUser === currentUserId
+            );
+
+            if (usuarioEncontrado) {
+              observer.next(usuarioEncontrado.nombre);  // Si se encuentra el usuario, emitimos su nombre
+            } else {
+              observer.next('Usuario no encontrado');  // Si no se encuentra, emitimos un mensaje por defecto
+            }
+          });
+        } else {
+          observer.next('Usuario no autenticado');  // Si no hay usuario autenticado
+        }
+      });
+    });
+  }
+
+  obtenerUsuarioPorId(id: string): Promise<Usuario | undefined> {
+    return this.firestore
+      .collection('usuarios')
+      .doc(id)
+      .get()
+      .toPromise()
+      .then((doc) => {
+        // Verificamos si el documento existe
+        if (doc && doc.exists) {
+          return doc.data() as Usuario; // Retorna los datos del usuario si el documento existe
+        } else {
+          return undefined; // Si el documento no existe, retornamos undefined
+        }
+      })
+      .catch((error) => {
+        console.error('Error al obtener el usuario:', error);
+        return undefined; // Si ocurre algún error, retornamos undefined
+      });
   }
 
   agregarViaje(viaje: any): Promise<void> {
@@ -49,6 +90,10 @@ export class DatabaseService {
     return this.firestore.collection('usuarios').doc(usuarioId).valueChanges().pipe(
       map((usuario: any) => usuario && usuario.vehiculo ? usuario.vehiculo: null)
     );
+  }
+
+  eliminarNotificaciones(notificationId: string): Promise<void> {
+    return this.firestore.collection('notificaciones').doc(notificationId).delete();
   }
   
 

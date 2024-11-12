@@ -7,4 +7,6 @@ export interface Viajes {
     lat?: number;
     lng?: number;
     usuarioId: string; 
+    creadorId?: string;
+    nombreCreador?: string; 
 }
