@@ -14,6 +14,7 @@ export class NotificacionesPage implements OnInit, OnDestroy {
   notificaciones$: Observable<any[]> | undefined;
   viajes$: Observable<any[]> | undefined;
   userSubscription: Subscription | undefined;
+  currentUserId: string = ""; 
 
   constructor(
     private firestore: AngularFirestore,
@@ -32,6 +33,17 @@ export class NotificacionesPage implements OnInit, OnDestroy {
       }
     });
     console.log("notificacion",this.cargarViajesYNotificaciones());
+
+    this.authService.getUser().subscribe({
+      next: (usuario) => {
+        if (usuario) {
+          this.currentUserId = usuario.uid; // Obtener ID de usuario
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener el usuario:', error);
+      },
+    });
     
   }
 
@@ -62,19 +74,26 @@ export class NotificacionesPage implements OnInit, OnDestroy {
   }
   
 
-  eliminarNotificacion(notificationId: string) {
-    if (!notificationId) {
-      console.error('Notification ID is required');
-      return;
-    }
-    this.firebaseStorage.eliminarNotificaciones(notificationId)
-      .then(() => {
-        console.log('Notificación eliminada de Firestore:', notificationId);
-      })
-      .catch(error => {
-        console.error('Error al eliminar notificación:', error);
+  eliminarNotificacion(viajeId: string) {
+    this.firestore.collection("notificaciones", ref => 
+      ref.where("viajeId", "==", viajeId)
+    ).get().subscribe(snapshot => {
+      if (snapshot.empty) {
+        console.log("No se encontraron notificaciones para eliminar.");
+        return;
+      }
+      
+      snapshot.forEach(doc => {
+        doc.ref.delete().then(() => {
+          console.log("Notificación de reserva eliminada.");
+        }).catch(error => {
+          console.error("Error al eliminar la notificación de reserva:", error);
+        });
       });
+    });
   }
+  
+  
   
 
   ngOnDestroy() {

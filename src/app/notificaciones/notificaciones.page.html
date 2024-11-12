@@ -9,11 +9,12 @@
     <ion-item *ngFor="let notificacion of notificaciones$ | async">
       <ion-label>
         {{notificacion.notificationId}}
+        {{notificacion.viajeId}}
         <h2>{{ notificacion.tipo }}</h2>
         <p>{{ notificacion.mensaje }}</p>
         <p><small>{{ notificacion.fecha?.toDate() | date }}</small></p>
       </ion-label>
-      <ion-button (click)="eliminarNotificacion(notificacion.notificationId)">Eliminar Notificación</ion-button>
+      <ion-button (click)="eliminarNotificacion(notificacion.viajeId)">Eliminar Notificación</ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

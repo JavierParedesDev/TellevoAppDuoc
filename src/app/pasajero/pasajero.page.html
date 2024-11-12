@@ -30,7 +30,7 @@
                     Reservar Asiento
                   </ion-button>
 
-                  <ion-button (click)="eliminarReserva(viaje.id.toString(),viaje.capacidad)" [disabled]="EliminarReserva" expand="block" fill="clear" shape="round" color="danger">
+                  <ion-button (click)="eliminarReserva(viaje.id.toString(), viaje.capacidad, viaje.usuarioId)" [disabled]="EliminarReserva" expand="block" fill="clear" shape="round" color="danger">
                     <ion-icon name="trash" slot="start"></ion-icon>
                     Eliminar Reserva
                   </ion-button>
