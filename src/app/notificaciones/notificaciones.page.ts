@@ -3,6 +3,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, Subscription } from 'rxjs';
 import { AuthServiceService } from '../services/auth-service.service';
 import { DatabaseService } from '../services/database.service';
+import { ModalController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-notificaciones',
@@ -16,10 +18,20 @@ export class NotificacionesPage implements OnInit, OnDestroy {
   userSubscription: Subscription | undefined;
   currentUserId: string = ""; 
 
+  //chat
+  currentUserName= "";
+  chatId: string = 'chatTellevo'; 
+  messages: any[] = [];
+  newMessage: string = '';
+  private messagesSubscription: Subscription | undefined;
+
+  isModalOpen = false;
+
   constructor(
     private firestore: AngularFirestore,
     private authService: AuthServiceService,
-    private firebaseStorage : DatabaseService
+    private firebaseStorage : DatabaseService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -44,6 +56,22 @@ export class NotificacionesPage implements OnInit, OnDestroy {
         console.error('Error al obtener el usuario:', error);
       },
     });
+
+    //chat
+    this.messagesSubscription = this.firebaseStorage.getMessages(this.chatId)
+    .subscribe(messages => {
+      this.messages = messages;
+    });
+
+    this.firebaseStorage.obtenerNombreUsuarioActual().subscribe({
+      next: (nombre) => {
+        this.currentUserName = nombre;
+        console.log('Nombre del usuario:', this.currentUserName);
+      },
+      error: (error) => {
+        console.error('Error al obtener el nombre del usuario:', error);
+      },
+    });
     
   }
 
@@ -59,7 +87,7 @@ export class NotificacionesPage implements OnInit, OnDestroy {
   
     // Consultar las notificaciones relevantes para el usuario actual
     this.notificaciones$ = this.firestore.collection('notificaciones', ref => 
-      ref.where('usuarioId', '==',this.usuarioId) // Si deseas filtrar por el tipo de notificación (opcional)
+      ref.where('usuarioId', '==', this.usuarioId) // Filtrar notificaciones del usuario actual
          .orderBy('fecha', 'desc')
     ).valueChanges();
   
@@ -72,6 +100,7 @@ export class NotificacionesPage implements OnInit, OnDestroy {
       }
     });
   }
+
   
 
   eliminarNotificacion(viajeId: string) {
@@ -94,12 +123,32 @@ export class NotificacionesPage implements OnInit, OnDestroy {
   }
   
   
-  
+  //chat
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  sendMessage() {
+    if (this.newMessage.trim() !== '') {
+      const message = {
+        sender:this.currentUserName, // ID del usuario que envía el mensaje
+        content: this.newMessage,
+        timestamp: new Date().getTime() // Timestamp en formato Unix
+      };
+
+      // Llamar al servicio para enviar el mensaje
+      this.firebaseStorage.sendMessage(this.chatId, message)
+        .then(() => {
+          this.newMessage = ''; // Limpiar el campo de texto después de enviar el mensaje
+        })
+        .catch(error => console.error('Error al enviar el mensaje:', error));
+    }
+  }
 
   ngOnDestroy() {
-    // Limpiar suscripción para evitar pérdidas de memoria
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
+    if (this.messagesSubscription) {
+      this.messagesSubscription.unsubscribe();
     }
   }
 }

@@ -18,10 +18,43 @@
       </ion-label>
       <div class="ion-padding">
         <ion-button color="danger" (click)="eliminarNotificacion(notificacion.viajeId)">Eliminar Notificación</ion-button>
-        <ion-button>
-          <ion-icon name="chatbubbles-outline"></ion-icon>
+        <ion-button (click)="setOpen(true)">
+          <ion-icon  name="chatbubbles-outline"></ion-icon>
         </ion-button>
       </div>
+
+    
+
+      <ion-modal [isOpen]="isModalOpen">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Chat</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="setOpen(false)">Close</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <div *ngFor="let message of messages">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>{{ message.sender }}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <p>{{ message.content }}</p>
+                  <small>{{ message.timestamp | date:'short' }}</small>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          
+            <ion-item>
+              <ion-input [(ngModel)]="newMessage" placeholder="Escribe un mensaje"></ion-input>
+              <ion-button (click)="sendMessage()">Enviar</ion-button>
+            </ion-item>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
      
   </ion-list>
     

@@ -94,21 +94,23 @@ export class PasajeroPage implements OnInit {
       this.alertas("Error", "No hay asientos disponibles.");
       return;
     }
-
+  
     // Verificar si el nombre del usuario está disponible
     if (!this.currentUserName) {
       this.alertas("Error", "No se ha encontrado el nombre del usuario.");
       return;
     }
-
+  
     // Mostrar alerta de reserva exitosa
     this.alertas("Asiento Reservado", "Su destino es: " + viaje.destino);
+    
+    // Cambiar el estado para reflejar que la reserva fue exitosa
     this.reserva = true;
     this.EliminarReserva = false;
-
+  
     // Calcular la nueva capacidad
     const nueva_capacidad = capacidad - 1;
-
+  
     // 1. Actualizar la capacidad en Firestore
     this.firestore
       .collection("viajes")
@@ -116,9 +118,9 @@ export class PasajeroPage implements OnInit {
       .update({ capacidad: nueva_capacidad })
       .then(() => {
         console.log("Capacidad actualizada correctamente.");
-
-        // 2. Crear la notificación
-        const notificacion = {
+  
+        // 2. Crear la notificación para el creador del viaje (usuario que creó el viaje)
+        const notificacionCreador = {
           notificationId: Date.now().toString(),
           tipo: "Reserva Asiento", // Tipo de notificación
           mensaje: `El usuario ${this.currentUserName} ha reservado un asiento para el viaje a ${viaje.destino}.`,
@@ -129,20 +131,39 @@ export class PasajeroPage implements OnInit {
           viajeId: viajeId, // ID del viaje asociado
           creadorId: viaje.usuarioId, // El ID del creador del viaje
         };
-
-        // 3. Guardar la notificación en Firestore
-        return this.firestore.collection("notificaciones").add(notificacion);
+  
+        // 3. Crear la notificación para el usuario que hizo la reserva
+        const notificacionUsuario = {
+          notificationId: Date.now().toString() + '_user',
+          tipo: "Reserva Asiento", // Tipo de notificación
+          mensaje: `Has reservado un asiento para el viaje a ${viaje.destino}.`,
+          fecha: new Date(), // Fecha y hora de la notificación
+          leido: false, // Notificación no leída inicialmente
+          usuarioId: this.currentUserId, // ID del usuario que hizo la reserva
+          reservaUsuarioId: this.currentUserId, // El ID del usuario que hizo la reserva
+          viajeId: viajeId, // ID del viaje asociado
+          creadorId: viaje.usuarioId, // El ID del creador del viaje
+        };
+  
+        // 4. Guardar ambas notificaciones en Firestore
+        return Promise.all([
+          this.firestore.collection("notificaciones").add(notificacionCreador),
+          this.firestore.collection("notificaciones").add(notificacionUsuario)
+        ]);
       })
       .then(() => {
-        console.log("Notificación agregada correctamente.");
+        console.log("Notificaciones agregadas correctamente.");
       })
       .catch((error) => {
-        console.error(
-          "Error al actualizar la capacidad o agregar la notificación: ",
-          error
-        );
+        console.error("Error al actualizar la capacidad o agregar las notificaciones: ", error);
+        // Si hay un error, puedes mostrar una alerta de error
+        this.alertas("Error", "Hubo un problema al realizar la reserva.");
+      })
+      .finally(() => {
+        // Aquí puedes hacer algún paso final si es necesario (como recargar datos)
       });
   }
+  
 
   eliminarReserva(viajeId: string, capacidad: number, creadorId: string) {
     this.EliminarReserva = true;
