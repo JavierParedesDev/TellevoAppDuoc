@@ -16,7 +16,9 @@
     </ion-tab-button>
     <ion-tab-button tab="notificaciones">
       <ion-icon name="chatbox-ellipses"></ion-icon>
-      <ion-badge color="primary" mode="ios">42</ion-badge>
+      <ion-badge color="primary" *ngIf="notificacionesNuevas > 0" mode="ios">
+        {{ notificacionesNuevas }}
+      </ion-badge>
     </ion-tab-button>
     
   </ion-tab-bar>

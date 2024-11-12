@@ -1,5 +1,6 @@
 import { Vehiculo } from "./vehiculo";
 
+
 export interface Usuario {
     idUser: string;
     id: string;
