@@ -5,6 +5,8 @@ import { Viajes } from '../interfaces/viajes';
 import { AuthServiceService } from './auth-service.service';
 import { Usuario } from '../interfaces/usuario';
 import { Vehiculo } from '../interfaces/vehiculo';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,8 @@ export class DatabaseService {
 
   constructor(
     private firestore: AngularFirestore,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private db: AngularFireDatabase
   ) { }
 
   recuperarUsuarios(): Observable<any[]> {
@@ -94,6 +97,25 @@ export class DatabaseService {
 
   eliminarNotificaciones(notificationId: string): Promise<void> {
     return this.firestore.collection('notificaciones').doc(notificationId).delete();
+  }
+
+  //chat
+
+
+  // Obtener todos los mensajes (en un chat, por ejemplo)
+  getMessages(chatId: string): Observable<any[]> {
+    return this.db.list(`chats/${chatId}/messages`).valueChanges();
+  }
+
+  // Enviar un mensaje
+  sendMessage(chatId: string, message: any) {
+    const messagesRef = this.db.list(`chats/${chatId}/messages`);
+    return messagesRef.push(message); // Push agrega un mensaje al final
+  }
+
+  // Eliminar un mensaje (por ejemplo, dado un mensajeId)
+  deleteMessage(chatId: string, messageId: string) {
+    return this.db.list(`chats/${chatId}/messages`).remove(messageId);
   }
   
 
