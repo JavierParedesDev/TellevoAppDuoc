@@ -8,22 +8,22 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-card class="viajes-card">
           <ion-card-header class="viaje-card-header">
             <ion-card-title>Viajes Disponibles</ion-card-title>
           </ion-card-header>
             <ion-list>
               <ion-item *ngFor="let viaje of viajes" class="viaje-item">
                 <ion-card class="ion-padding viaje-info-card">
-                  <h2>{{viaje.destino }}</h2>
+                  <h2>{{viaje.destino}}</h2>
                   <p>{{viaje.nombreCreador}}</p>            
                   <p>Capacidad disponible: {{ viaje.capacidad }} personas</p>
-                  <p>Costo: ${{ viaje.costo }} por persona</p>
-                  <p>Hora Salida: {{ viaje.horaSalida }}</p>
+                  <p>Costo: ${{ viaje.costo }} - <ion-icon slot="start" name="person"></ion-icon></p>
+                  <p><ion-icon  slot="start" name="calendar-outline"></ion-icon>{{ viaje.horaSalida | date:'dd/MM/yyyy' }} </p>
+                  <p><ion-icon   slot="start-outline" name="time"></ion-icon>{{ viaje.horaSalida | date:'HH:mm' }}</p>
 
-                  <ion-card-header class="viaje-header">
+             
                     <div id="map-{{ viaje.id }}" class="map-container"></div>
-                  </ion-card-header>
+               
 
                   <ion-button [disabled]="reserva" color="primary" fill="outline" expand="block" (click)="reservarAsiento(viaje, viaje.id.toString() , viaje.capacidad, viaje.usuarioId)">
                     <ion-icon name="checkmark" slot="start"></ion-icon>
@@ -37,7 +37,6 @@
                 </ion-card>
               </ion-item>
             </ion-list>
-        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>

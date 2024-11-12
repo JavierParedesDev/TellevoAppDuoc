@@ -2,40 +2,40 @@
     background-color: #f2f2f2; /* Fondo limpio */
     padding: 15px;
   }
-  
-  .viajes-card {
-    border-radius: 15px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
-  }
-  
+
   .viaje-card-header {
     text-align: center;
     font-weight: bold;
     font-size: 18px;
     color: #333;
   }
-  
+
   .viaje-item {
     margin-bottom: 15px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
   }
   
   .viaje-info-card {
     border-radius: 15px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     background-color: white;
+    width: 100%;
   }
   
   .viaje-info-card h2 {
     font-size: 20px;
     margin-bottom: 10px;
-    color: #ffaa00; /* Color destacado similar al de DiDi */
+    color: var(--ion-color-tertiary); 
+    text-transform: uppercase;
   }
   
   .viaje-info-card p {
     margin: 5px 0;
     font-size: 16px;
     color: #333;
+    text-transform: uppercase;
   }
   
   ion-button {

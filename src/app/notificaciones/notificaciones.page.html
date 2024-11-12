@@ -1,20 +1,30 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Notificaciones</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-item *ngFor="let notificacion of notificaciones$ | async">
+<ion-content *ngFor="let notificacion of notificaciones$ | async">
+  <ion-card>
+    <ion-list>
       <ion-label>
-        {{notificacion.notificationId}}
-        {{notificacion.viajeId}}
-        <h2>{{ notificacion.tipo }}</h2>
-        <p>{{ notificacion.mensaje }}</p>
-        <p><small>{{ notificacion.fecha?.toDate() | date }}</small></p>
+        <ion-card-header>
+          <ion-card-subtitle>{{ notificacion.tipo }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ notificacion.mensaje }}</p>
+        </ion-card-content>
+        <p class="ion-padding"><small>{{ notificacion.fecha?.toDate() | date }}</small></p>
       </ion-label>
-      <ion-button (click)="eliminarNotificacion(notificacion.viajeId)">Eliminar Notificación</ion-button>
-    </ion-item>
+      <div class="ion-padding">
+        <ion-button color="danger" (click)="eliminarNotificacion(notificacion.viajeId)">Eliminar Notificación</ion-button>
+        <ion-button>
+          <ion-icon name="chatbubbles-outline"></ion-icon>
+        </ion-button>
+      </div>
+     
   </ion-list>
+    
+  </ion-card>
+
 </ion-content>
