@@ -2,15 +2,16 @@
   <div *ngFor="let viaje of viajes" class="viaje-card">
     <ion-card>
       <ion-card-header class="viaje-header">
-        <ion-card-title>{{ viaje.destino }}</ion-card-title>
+        <ion-card-title>{{ viaje.destino | uppercase}}</ion-card-title>
         <ion-icon name="location" slot="start" class="viaje-icon"></ion-icon>
       </ion-card-header>
 
       <ion-card-content>
-        <p>Creado por: {{ viaje.nombreCreador }}</p>
+        <p>Creado por: {{ viaje.nombreCreador | uppercase}}</p>
         <p class="viaje-info">Capacidad: {{ viaje.capacidad }}</p>
         <p class="viaje-info">Costo: {{ viaje.costo }} CLP</p>
-        <p class="viaje-info">Hora de Salida: {{ viaje.horaSalida }}</p>
+        <p><ion-icon class="mr-2" slot="start" name="calendar-outline"></ion-icon>{{ viaje.horaSalida | date:'dd/MM/yyyy' }} </p>
+        <p><ion-icon class="mr-2" slot="start-outline" name="time"></ion-icon>{{ viaje.horaSalida | date:'HH:mm' }}</p>
 
         <!-- Contenedor del mapa -->
         <div id="map-{{ viaje.id }}" class="map-container"></div>
