@@ -39,6 +39,10 @@ export class MapsService {
 
   // Inicializar el mapa
   initMap(mapId: string, lat: number, lng: number): any {
+
+    if (this.maps[mapId]) {
+      this.destroyMap(mapId);
+    }
     const map = L.map(mapId, {
       zoomControl: false, // Deshabilitar el control de zoom
       doubleClickZoom: false, // Deshabilitar zoom con doble clic

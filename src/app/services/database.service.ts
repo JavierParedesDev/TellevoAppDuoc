@@ -79,6 +79,7 @@ export class DatabaseService {
     const viajeId = this.firestore.createId(); 
     return this.firestore.collection('viajes').doc(viajeId).set({ ...viaje, id: viajeId });
   }
+
   
   recuperarViajes(): Observable<Viajes[]> {
     return this.firestore.collection<Viajes>('viajes').valueChanges();

@@ -3,22 +3,27 @@
 
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="home">
-      <ion-icon name="home"></ion-icon>
+      <ion-icon name="home-outline"></ion-icon>
+      Inicio
     </ion-tab-button>
     <ion-tab-button  *ngIf="usuario.vehiculo" tab="conductor">
-      <ion-icon name="car"></ion-icon>
+      <ion-icon name="car-sport-outline"></ion-icon>
+      Conducir
     </ion-tab-button>
     <ion-tab-button  *ngIf="usuario.vehiculo" tab="misviajes">
-      <ion-icon name="map"></ion-icon>
+      <ion-icon name="navigate-circle-outline"></ion-icon>
+      MisViajes
     </ion-tab-button>
     <ion-tab-button tab="pasajero">
-      <ion-icon name="person"></ion-icon>
+      <ion-icon name="person-outline"></ion-icon>
+      Viajar
     </ion-tab-button>
     <ion-tab-button tab="notificaciones">
-      <ion-icon name="chatbox-ellipses"></ion-icon>
+      <ion-icon name="chatbox-ellipses-outline"></ion-icon>
       <ion-badge color="primary" *ngIf="notificacionesNuevas > 0" mode="ios">
         {{ notificacionesNuevas }}
       </ion-badge>
+      Notificaciones
     </ion-tab-button>
     
   </ion-tab-bar>
