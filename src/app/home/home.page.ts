@@ -10,6 +10,8 @@ import { DatabaseService } from '../services/database.service';
 export class HomePage implements OnInit {
   email: any;
   currentUserName: string = "";
+  viajesTerminados: any[] = [];
+  ganancias: any[] = [];
 
 
   constructor(
@@ -30,7 +32,21 @@ export class HomePage implements OnInit {
         console.error('Error al obtener el nombre del usuario:', error);
       },
     });
+
+    this.cargarHistorialViajes()
     
+  }
+
+  cargarHistorialViajes(): void {
+    const viajescount = localStorage.getItem('viajesTerminados');
+    const ganancias = localStorage.getItem('ganancias');
+    if (viajescount) {
+      this.viajesTerminados = JSON.parse(viajescount);
+      this.ganancias = JSON.parse(ganancias);
+      console.log('Historial de viajes:', this.viajesTerminados);
+    } else {
+      console.log('No hay historial de viajes en localStorage.');
+    }
   }
 
 
