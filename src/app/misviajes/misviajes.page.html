@@ -3,12 +3,14 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-card class="ion-padding">
+ 
     <div *ngIf="viajes.length === 0">
-      <p>No hay viajes creados</p>
-      <p>Quieres crear un viaje ? <a class="a-crear" routerLink="/tabs/conductor">Crear Viaje</a></p>
+      <ion-card class="ion-padding">
+        <p>No hay viajes creados</p>
+        <p>Quieres crear un viaje ? <a class="a-crear" routerLink="/tabs/conductor">Crear Viaje</a></p>
+      </ion-card>
     </div>
-  </ion-card>
+
   <div *ngFor="let viaje of viajes" class="viaje-card">
     <ion-card>
       <ion-card-header class="viaje-header">
@@ -42,12 +44,13 @@
       <div *ngIf="historial.length === 0">
         <p>No hay viajes en el historial.</p>
       </div>
-    </ion-card>
+    
     <ion-list class="ion-padding" *ngFor="let viaje of historial">
       <p>Dirección: {{ viaje.direccion }}</p>
       <p>Precio: {{ viaje.precio | currency }}</p>
       <p>Fecha: {{ viaje.fecha | date: 'medium' }}</p>
       <hr />
     </ion-list>
+  </ion-card>
   </div>
 </ion-content>
