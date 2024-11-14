@@ -30,6 +30,11 @@
     </application>
 
     <!-- Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Si necesitas acceso a la ubicación en segundo plano (background) en Android 10 o superior -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
