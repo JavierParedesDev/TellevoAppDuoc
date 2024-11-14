@@ -3,8 +3,12 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
-  
+  <ion-card class="ion-padding">
+    <div *ngIf="viajes.length === 0">
+      <p>No hay viajes creados</p>
+      <p>Quieres crear un viaje ? <a class="a-crear" routerLink="/tabs/conductor">Crear Viaje</a></p>
+    </div>
+  </ion-card>
   <div *ngFor="let viaje of viajes" class="viaje-card">
     <ion-card>
       <ion-card-header class="viaje-header">
@@ -13,11 +17,11 @@
       </ion-card-header>
 
       <ion-card-content mode="ios">
-        <p>Creado por: {{ viaje.nombreCreador | uppercase}}</p>
+        <p>Usuario: {{ viaje.nombreCreador | uppercase}}</p>
         <p class="viaje-info">Capacidad: {{ viaje.capacidad }}</p>
         <p class="viaje-info">Costo: {{ viaje.costo }} CLP</p>
-        <p><ion-icon class="mr-2" slot="start" name="calendar-outline"></ion-icon>{{ viaje.horaSalida | date:'dd/MM/yyyy' }} </p>
-        <p><ion-icon class="mr-2" slot="start-outline" name="time"></ion-icon>{{ viaje.horaSalida | date:'HH:mm' }}</p>
+        <p>Fecha de salida: {{ viaje.horaSalida | date:'dd/MM/yyyy' }} </p>
+        <p>Hora de salida: {{ viaje.horaSalida | date:'HH:mm' }}</p>
 
         <!-- Contenedor del mapa -->
         <div id="map-{{ viaje.id }}" class="map-container"></div>
@@ -33,11 +37,12 @@
     </ion-card>
   </div>
   <div class="ion-padding">
-    <h2>Historial de Viajes Terminados</h2>
-    <div *ngIf="historial.length === 0">
-      <p>No hay viajes en el historial.</p>
-    </div>
-
+    <ion-card class="ion-padding">
+      <h2>Historial de Viajes Terminados</h2>
+      <div *ngIf="historial.length === 0">
+        <p>No hay viajes en el historial.</p>
+      </div>
+    </ion-card>
     <ion-list class="ion-padding" *ngFor="let viaje of historial">
       <p>Dirección: {{ viaje.direccion }}</p>
       <p>Precio: {{ viaje.precio | currency }}</p>

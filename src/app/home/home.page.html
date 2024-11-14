@@ -3,21 +3,21 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-toolbar color="tertiary" class="toolbar-custom">
-    <ion-icon slot="end" size="large" name="settings-outline" class="p-5" routerLink="/tabs/setting"></ion-icon>
-    <ion-avatar slot="start">
+    <ion-icon class="setting-icono" slot="end" size="large" name="settings-outline" routerLink="/tabs/setting"></ion-icon>
+    <ion-avatar slot="start" class="ml-5">
       <img
         src="https://yt3.googleusercontent.com/vRF8BHREiJ3Y16AbMxEi_oEuoQlnNNqGpgULuZ6zrWSAi24HcxX3Vko42RN8ToctH-G0qlWd=s900-c-k-c0x00ffffff-no-rj" />
     </ion-avatar>
     <div class="div-header">
       <ion-title class="email-title" slot="start">
-        {{currentUserName}}
+        {{currentUserName | uppercase}}
         <p>{{email}}</p>
       </ion-title>
     </div>
   </ion-toolbar>
   <div class="contenido-div relative overflow-hidden ">
     <!-- Bienvenida -->
-    <h2 class="text-center text-2xl font-semibold mb-6 p-10">Resumen de tu actividad</h2>
+    <h2 class="text-center text-2xl font-semibold mb-6 p-10">R E S U M E N</h2>
 
     <!-- Estadísticas Generales -->
     <ion-grid>

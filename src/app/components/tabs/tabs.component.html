@@ -6,8 +6,17 @@
       <ion-icon name="home-outline"></ion-icon>
       Inicio
     </ion-tab-button>
-    <ion-tab-button  *ngIf="usuario.vehiculo" tab="conductor">
-      <ion-icon name="car-sport-outline"></ion-icon>
+    <ion-tab-button *ngIf="usuario.vehiculo" tab="conductor">
+      <div class="animacion-car">
+        <span class="material-symbols-outlined">
+          airport_shuttle
+          </span>
+      </div>
+      <div class="animacion-line">
+        <ion-icon name="business"></ion-icon>
+        <ion-icon name="business-outline"></ion-icon>
+        <ion-icon name="business"></ion-icon>
+      </div>
       Conducir
     </ion-tab-button>
     <ion-tab-button  *ngIf="usuario.vehiculo" tab="misviajes">

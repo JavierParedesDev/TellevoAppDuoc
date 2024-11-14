@@ -7,6 +7,7 @@ import * as L from 'leaflet';
 import { DatabaseService } from '../services/database.service';
 import { Usuario } from '../interfaces/usuario';
 import { flush } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-conductor',
@@ -41,7 +42,8 @@ export class ConductorPage implements OnInit {
     private loadingController: LoadingController,
     private authService: AuthServiceService,
     private databaseService: DatabaseService,
-    private alertCtrl : AlertController
+    private alertCtrl : AlertController,
+    private router : Router
   ) {}
 
   ngOnInit() {
@@ -120,6 +122,7 @@ export class ConductorPage implements OnInit {
       console.error('Error al crear la dirección:', error);
     } finally {
       await loading.dismiss();
+      this.router.navigateByUrl('/tabs/misviajes')
     }
   }
 
@@ -143,6 +146,7 @@ export class ConductorPage implements OnInit {
   }
   
 
+  
   
 }
 
