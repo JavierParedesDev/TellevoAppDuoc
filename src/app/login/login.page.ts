@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../interfaces/usuario';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -23,7 +23,8 @@ export class LoginPage implements OnInit {
   }
   constructor(
     private AlertCtr : AlertController,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -34,7 +35,7 @@ export class LoginPage implements OnInit {
     this.authService.login(this.urs.email, this.urs.contrasena)
       .then(() => {
         // Mostrar mensaje de éxito si es necesario
-        this.alertas('Éxito', 'Inicio de sesión exitoso');
+        this.mostrarToast('Éxito', 'Inicio de sesión exitoso');
       })
       .catch((error) => {
         // Manejar el error de autenticación
@@ -51,6 +52,17 @@ export class LoginPage implements OnInit {
     })
 
     alrt.present()
+  }
+
+  async mostrarToast(titulo: string, mensaje: string) {
+    const toast = await this.toastController.create({
+      header: titulo,         
+      message: mensaje,        
+      duration: 1000,         
+      position: 'bottom',      
+      color: 'primary'      
+    });
+    await toast.present();
   }
 
 }

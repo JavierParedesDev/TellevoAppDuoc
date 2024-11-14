@@ -28,7 +28,6 @@ export class MapsService {
     });
   }
 
-  // Obtener la ubicación actual usando Geolocation
   async getCurrentLocation(): Promise<any> {
     const coordinates = await Geolocation.getCurrentPosition();
     return {
@@ -48,7 +47,7 @@ export class MapsService {
       doubleClickZoom: false, // Deshabilitar zoom con doble clic
       boxZoom: false, // Deshabilitar zoom de caja
       keyboard: false, // Deshabilitar controles de teclado
-      touchZoom: false, // Deshabilitar zoom táctil
+      touchZoom: true, // Deshabilitar zoom táctil
     }).setView([lat, lng], 12);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

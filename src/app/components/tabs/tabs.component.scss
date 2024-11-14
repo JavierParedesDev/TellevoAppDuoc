@@ -2,3 +2,66 @@
     width: 20px;
     color: aqua;
 }
+.car-container {
+    display: flex;
+    align-items: center;
+}
+.material-symbols-outlined {
+    color:#8e0fc0;
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 40
+}  
+
+.animacion-car {
+    animation: car-move 3s linear infinite ;
+    z-index: 1;
+    font-size: 25px;
+    display: flex;
+    align-items: center; 
+    z-index: 3;
+}
+
+@keyframes car-move {
+    0% {
+        transform: translateX(0px);
+    }
+    25% {
+        transform: translateX(5px) ;
+    }
+    37% {
+        transform: translateX(10px);
+    }
+    50% {
+        transform: translateX(10px) ;
+    }
+    62% {
+        transform: translateX(5px) ;
+    }
+    75% {
+        transform: translateX(-5px) ;
+    }
+    100% {
+        transform: translateX(-2px) ;
+    }
+}
+
+
+.animacion-line {
+    display: inline-block;
+    position: absolute;
+    font-size: 15px;
+    top: 0;
+    z-index: 1;
+    animation: line-move 2s linear infinite;
+}
+@keyframes line-move {
+    0% {
+        transform: translateX(100px);
+    }
+    100% {
+        transform: translateX(-100px);
+    }
+}
