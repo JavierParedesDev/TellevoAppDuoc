@@ -1,4 +1,10 @@
 <ion-content class="viajes-content">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  
   <div *ngFor="let viaje of viajes" class="viaje-card">
     <ion-card>
       <ion-card-header class="viaje-header">
@@ -25,5 +31,18 @@
         Eliminar Viaje
       </ion-button>
     </ion-card>
+  </div>
+  <div class="ion-padding">
+    <h2>Historial de Viajes Terminados</h2>
+    <div *ngIf="historial.length === 0">
+      <p>No hay viajes en el historial.</p>
+    </div>
+
+    <ion-list class="ion-padding" *ngFor="let viaje of historial">
+      <p>Dirección: {{ viaje.direccion }}</p>
+      <p>Precio: {{ viaje.precio | currency }}</p>
+      <p>Fecha: {{ viaje.fecha | date: 'medium' }}</p>
+      <hr />
+    </ion-list>
   </div>
 </ion-content>

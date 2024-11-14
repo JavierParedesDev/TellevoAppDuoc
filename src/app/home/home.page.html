@@ -1,4 +1,7 @@
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-toolbar color="tertiary" class="toolbar-custom">
     <ion-icon slot="end" size="large" name="settings-outline" class="p-5" routerLink="/tabs/setting"></ion-icon>
     <ion-avatar slot="start">

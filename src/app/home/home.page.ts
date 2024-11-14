@@ -22,6 +22,7 @@ export class HomePage implements OnInit {
     this.authServi.getUser().subscribe(user => {
       this.email = user?.email;
       console.log(user)
+      this.cargarHistorialViajes()
     })
     this.databaseService.obtenerNombreUsuarioActual().subscribe({
       next: (nombre) => {
@@ -33,7 +34,7 @@ export class HomePage implements OnInit {
       },
     });
 
-    this.cargarHistorialViajes()
+    
     
   }
 
@@ -48,7 +49,12 @@ export class HomePage implements OnInit {
       console.log('No hay historial de viajes en localStorage.');
     }
   }
-
+  handleRefresh(event) {
+    setTimeout(() => {
+      window.location.reload(); 
+      event.target.complete();
+    }, 300);
+  }
 
 
   

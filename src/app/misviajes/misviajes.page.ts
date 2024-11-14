@@ -14,8 +14,9 @@ import { Usuario } from "src/app/interfaces/usuario"; // Asegúrate de importar 
 export class MisviajesPage implements OnInit {
   viajes: Viajes[] = [];
   currentLocation: any;
-  currentUserId: string = ""; // Para almacenar el ID del usuario actual
+  currentUserId: string = ""; 
   nombreCreador: string = "";
+  historial: any[] = [];
 
   constructor(
     private mapsService: MapsService,
@@ -26,11 +27,13 @@ export class MisviajesPage implements OnInit {
   ngOnInit() {
     this.authService.getUser().subscribe((usuario) => {
       if (usuario) {
-        this.currentUserId = usuario.uid; // Obtener el ID del usuario
-        this.cargarViajes(); // Cargar viajes solo después de obtener el ID
+        this.currentUserId = usuario.uid; 
+        this.cargarViajes(); 
+        this.cargarHistorial();
       }
     });
     this.initCurrentLocation();
+    
   }
 
   cargarViajes() {
@@ -62,6 +65,11 @@ export class MisviajesPage implements OnInit {
     }
   }
 
+  cargarHistorial() {
+    const historialGuardado = JSON.parse(localStorage.getItem("historial") || "[]");
+    this.historial = historialGuardado;
+  }
+
   agregarHistorial(viaje: { direccion: string; precio: number; }, ganancia:number , id:number): void {
     const historialId = this.generarIdUnico();
     const nuevoViaje = {
@@ -84,6 +92,7 @@ export class MisviajesPage implements OnInit {
     this.incrementarViajesTerminados(ganancia);
 
     this.eliminarViaje(id)
+    this.cargarHistorial();
   }
 
   generarIdUnico(): string {
@@ -113,5 +122,12 @@ export class MisviajesPage implements OnInit {
       .catch((error) => {
         console.error("Error al eliminar el viaje:", error);
       });
+  }
+
+  handleRefresh(event) {
+    setTimeout(() => {
+      window.location.reload(); 
+      event.target.complete();
+    }, 300);
   }
 }
